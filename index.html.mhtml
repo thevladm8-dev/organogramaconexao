@@ -1,0 +1,1412 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: file:///C:/Users/Igor%20Conex%C3%A3o/Downloads/Organograma_Interativo_Curitiba_6.html
+Subject: =?utf-8?Q?Organograma=20Interativo=20=E2=80=93=20Curitiba=20|=20Compag=C3?=
+ =?utf-8?Q?=A1s?=
+Date: Tue, 24 Mar 2026 11:16:50 -0300
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--ecxxnw5dmMWwUtae4bKTi1osTnMQ8gK0UPMUg1s1NJ----"
+
+
+------MultipartBoundary--ecxxnw5dmMWwUtae4bKTi1osTnMQ8gK0UPMUg1s1NJ----
+Content-Type: text/html
+Content-ID: <frame-059FCA787A1E81F6323912D5A5527EEA@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/Users/Igor%20Conex%C3%A3o/Downloads/Organograma_Interativo_Curitiba_6.html
+
+<!DOCTYPE html><html lang=3D"pt-BR"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-94065811-ca1d-41bc-89ce-9313286fbae7@mhtml.blink" /=
+>
+
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
+0">
+<title>Organograma Interativo =E2=80=93 Curitiba | Compag=C3=A1s</title>
+
+</head>
+<body>
+
+<!-- TELA DE CONFIGURA=C3=87=C3=83O INICIAL -->
+<div class=3D"setup-screen" id=3D"setupScreen">
+  <div class=3D"setup-box">
+    <h2>=E2=9A=99=EF=B8=8F Configura=C3=A7=C3=A3o Inicial</h2>
+    <p>Para sincroniza=C3=A7=C3=A3o em tempo real entre todos os usu=C3=A1r=
+ios, =C3=A9 necess=C3=A1rio configurar uma chave do <strong>JSONBin.io</str=
+ong> (servi=C3=A7o gratuito). Fa=C3=A7a isso <strong>uma =C3=BAnica vez</st=
+rong> =E2=80=94 depois todos abrir=C3=A3o o arquivo normalmente.</p>
+
+    <div class=3D"setup-step">
+      <h4>1. Crie sua conta gratuita</h4>
+      <p>Acesse <a href=3D"https://jsonbin.io/" target=3D"_blank">jsonbin.i=
+o</a>, clique em <strong>Sign Up</strong> e crie uma conta gr=C3=A1tis.</p>
+    </div>
+
+    <div class=3D"setup-step">
+      <h4>2. Copie sua API Key</h4>
+      <p>Ap=C3=B3s entrar, clique no seu perfil =E2=86=92 <strong>API Keys<=
+/strong> =E2=86=92 copie a chave (come=C3=A7a com <code>$2a$</code> ou <cod=
+e>$2b$</code>)</p>
+      <input type=3D"text" id=3D"setupApiKey" placeholder=3D"Cole aqui sua =
+API Key do JSONBin.io">
+    </div>
+
+    <div class=3D"setup-step">
+      <h4>3. D=C3=AA um nome para identificar este organograma</h4>
+      <input type=3D"text" id=3D"setupBinName" placeholder=3D"Ex: Organogra=
+ma Curitiba Compag=C3=A1s" value=3D"Organograma Curitiba Compag=C3=A1s">
+    </div>
+
+    <div class=3D"setup-errmsg" id=3D"setupErr">JSONBin respondeu: Invalid =
+X-Master-Key provided =E2=80=94 Verifique se a API Key est=C3=A1 correta.</=
+div>
+    <div style=3D"display:flex;gap:8px;margin-top:16px;justify-content:flex=
+-end">
+      <button class=3D"btn btn-sec">Usar sem sincroniza=C3=A7=C3=A3o</butto=
+n>
+      <button class=3D"btn btn-primary" id=3D"setupBtn" disabled=3D"">Conec=
+tando...</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <h1>=F0=9F=93=8B Organograma Interativo =E2=80=93 Curitiba &nbsp;|&nbsp; =
+Engenharia de Infraestrutura Urbana =E2=80=93 Compag=C3=A1s</h1>
+  <div class=3D"header-right">
+    <div class=3D"sync-indicator" id=3D"syncIndicator" title=3D"Status da s=
+incroniza=C3=A7=C3=A3o">
+      <div class=3D"sync-dot error" id=3D"syncDot"></div>
+      <span id=3D"syncLabel">=F0=9F=94=B4 Sem conex=C3=A3o</span>
+    </div>
+    <span class=3D"lock-status" id=3D"lockStatus">=E2=9C=85 Modo edi=C3=A7=
+=C3=A3o ativo</span>
+    <button class=3D"lock-btn" id=3D"lockBtn">=F0=9F=94=92 Bloquear</button=
+>
+  </div>
+</header>
+
+<div class=3D"tabs">
+  <div class=3D"tab active" id=3D"tab-org">=F0=9F=93=8A Organograma</div>
+  <div class=3D"tab" id=3D"tab-emp">=F0=9F=91=B7 Gerenciar Funcion=C3=A1rio=
+s</div>
+</div>
+
+<!-- ABA ORGANOGRAMA -->
+<div class=3D"page active" id=3D"page-org">
+  <div class=3D"toolbar">
+    <input type=3D"text" id=3D"searchInput" placeholder=3D"=F0=9F=94=8D Bus=
+car funcion=C3=A1rio...">
+    <select id=3D"filterRole"><option value=3D"">Todos os cargos</option><o=
+ption value=3D"AJUDANTE GERAL">AJUDANTE GERAL</option><option value=3D"ALMO=
+XARIFE">ALMOXARIFE</option><option value=3D"APRENDIZ">APRENDIZ</option><opt=
+ion value=3D"ASSISTENTE DE QUALIDADE">ASSISTENTE DE QUALIDADE</option><opti=
+on value=3D"AUXILIAR DE ALMOXARIFADO">AUXILIAR DE ALMOXARIFADO</option><opt=
+ion value=3D"AUXILIAR DE LIMPEZA">AUXILIAR DE LIMPEZA</option><option value=
+=3D"COORDENADOR ADMINISTRATIVO">COORDENADOR ADMINISTRATIVO</option><option =
+value=3D"COORDENADOR DE PLANEJAMENTO">COORDENADOR DE PLANEJAMENTO</option><=
+option value=3D"ENCANADOR DE MANUTEN=C3=87=C3=83O">ENCANADOR DE MANUTEN=C3=
+=87=C3=83O</option><option value=3D"ENCARREGADO DE OBRAS">ENCARREGADO DE OB=
+RAS</option><option value=3D"ENGENHEIRA DE SEGURAN=C3=87A DO TRABALHO">ENGE=
+NHEIRA DE SEGURAN=C3=87A DO TRABALHO</option><option value=3D"ENGENHEIRO">E=
+NGENHEIRO</option><option value=3D"INSPETOR DE DUTOS">INSPETOR DE DUTOS</op=
+tion><option value=3D"INSPETOR DE QUALIDADE">INSPETOR DE QUALIDADE</option>=
+<option value=3D"LIXADOR">LIXADOR</option><option value=3D"MENOR APRENDIZ">=
+MENOR APRENDIZ</option><option value=3D"MOTORISTA">MOTORISTA</option><optio=
+n value=3D"NAVEGADOR">NAVEGADOR</option><option value=3D"OPERADOR DE FURO D=
+IRECIONAL">OPERADOR DE FURO DIRECIONAL</option><option value=3D"OPERADOR DE=
+ MUNCK">OPERADOR DE MUNCK</option><option value=3D"OPERADOR DE PERFURATRIZ"=
+>OPERADOR DE PERFURATRIZ</option><option value=3D"OPERADOR DE RETROESCAVADE=
+IRA">OPERADOR DE RETROESCAVADEIRA</option><option value=3D"PEDREIRO">PEDREI=
+RO</option><option value=3D"PROJETISTA">PROJETISTA</option><option value=3D=
+"SOLDADOR">SOLDADOR</option><option value=3D"SOLDADOR PEAD">SOLDADOR PEAD</=
+option><option value=3D"SUPERVISOR">SUPERVISOR</option><option value=3D"SUP=
+ERVISOR DE MND">SUPERVISOR DE MND</option><option value=3D"SUPERVISOR DE OB=
+RAS">SUPERVISOR DE OBRAS</option><option value=3D"TECNICO EM SEGURAN=C3=87A=
+ DO TRABALHO">TECNICO EM SEGURAN=C3=87A DO TRABALHO</option><option value=
+=3D"TOP=C3=93GRAFO">TOP=C3=93GRAFO</option></select>
+    <button class=3D"btn btn-primary" id=3D"btnNewTeam">+ Nova Equipe</butt=
+on>
+    <button class=3D"btn btn-warning" id=3D"btnNewEmp">+ Funcion=C3=A1rio</=
+button>
+    <button class=3D"btn btn-success">=F0=9F=92=BE Exportar JSON</button>
+    <button class=3D"btn btn-sec">=F0=9F=93=82 Importar JSON</button>
+    <input type=3D"file" id=3D"importFile" accept=3D".json" style=3D"displa=
+y:none">
+  </div>
+  <div class=3D"layout">
+    <div class=3D"sidebar">
+      <div class=3D"sidebar-header">=F0=9F=91=B7 Banco de Funcion=C3=A1rios=
+ <span class=3D"count" id=3D"sidebarCount">79</span></div>
+      <div class=3D"employees-list" id=3D"employeesList"><div class=3D"emp-=
+card draggable" draggable=3D"true" data-emp-id=3D"e1"><div class=3D"emp-nam=
+e">Adriano Antonio Sa</div><div class=3D"emp-role">AJUDANTE GERAL</div></di=
+v><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e2"><=
+div class=3D"emp-name">Alejandro Beritan Rivero</div><div class=3D"emp-role=
+">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=3D"=
+true" data-emp-id=3D"e3"><div class=3D"emp-name">Alexeis Madruga Ballate</d=
+iv><div class=3D"emp-role">MOTORISTA</div></div><div class=3D"emp-card drag=
+gable" draggable=3D"true" data-emp-id=3D"e4"><div class=3D"emp-name">Ana Lu=
+iza Santos De Almeida</div><div class=3D"emp-role">MENOR APRENDIZ</div></di=
+v><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e5"><=
+div class=3D"emp-name">Andy Ibanez Rivero</div><div class=3D"emp-role">AJUD=
+ANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=3D"true" =
+data-emp-id=3D"e6"><div class=3D"emp-name">Carlos Andre Dos Santos Carvalho=
+</div><div class=3D"emp-role">SUPERVISOR DE OBRAS</div></div><div class=3D"=
+emp-card draggable" draggable=3D"true" data-emp-id=3D"e7"><div class=3D"emp=
+-name">Carlos Daniel Castillejo Salazar</div><div class=3D"emp-role">AJUDAN=
+TE GERAL</div></div><div class=3D"emp-card draggable" draggable=3D"true" da=
+ta-emp-id=3D"e8"><div class=3D"emp-name">Clovis Da Concei=C3=A7=C3=A3o</div=
+><div class=3D"emp-role">OPERADOR DE RETROESCAVADEIRA</div></div><div class=
+=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e9"><div class=3D=
+"emp-name">Cristian Claro Gomes</div><div class=3D"emp-role">TOP=C3=93GRAFO=
+</div></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-i=
+d=3D"e10"><div class=3D"emp-name">Cristiano Alves De Oliveira</div><div cla=
+ss=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable"=
+ draggable=3D"true" data-emp-id=3D"e11"><div class=3D"emp-name">Cristiano F=
+rancisco Silva Santos</div><div class=3D"emp-role">SOLDADOR PEAD</div></div=
+><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e12"><=
+div class=3D"emp-name">Daiane Da Rocha De Assuncao Barbosa</div><div class=
+=3D"emp-role">AUXILIAR DE LIMPEZA</div></div><div class=3D"emp-card draggab=
+le" draggable=3D"true" data-emp-id=3D"e13"><div class=3D"emp-name">David Co=
+rtes Hernandez</div><div class=3D"emp-role">ASSISTENTE DE QUALIDADE</div></=
+div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e14=
+"><div class=3D"emp-name">David Daniel Castillo Cova</div><div class=3D"emp=
+-role">PROJETISTA</div></div><div class=3D"emp-card draggable" draggable=3D=
+"true" data-emp-id=3D"e15"><div class=3D"emp-name">Dorival Dos Santos</div>=
+<div class=3D"emp-role">MOTORISTA</div></div><div class=3D"emp-card draggab=
+le" draggable=3D"true" data-emp-id=3D"e16"><div class=3D"emp-name">Edimar E=
+spedito Da Silva</div><div class=3D"emp-role">SOLDADOR PEAD</div></div><div=
+ class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e17"><div c=
+lass=3D"emp-name">Edinaldo Souza Rossw</div><div class=3D"emp-role">OPERADO=
+R DE RETROESCAVADEIRA</div></div><div class=3D"emp-card draggable" draggabl=
+e=3D"true" data-emp-id=3D"e18"><div class=3D"emp-name">Felix Teodoro Andrad=
+e De La Rosa</div><div class=3D"emp-role">AJUDANTE GERAL</div></div><div cl=
+ass=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e19"><div clas=
+s=3D"emp-name">Frank Ledy Munoz Munoz</div><div class=3D"emp-role">OPERADOR=
+ DE RETROESCAVADEIRA</div></div><div class=3D"emp-card draggable" draggable=
+=3D"true" data-emp-id=3D"e20"><div class=3D"emp-name">Gabriele Antonio Pile=
+ggi Rodriguez</div><div class=3D"emp-role">MOTORISTA</div></div><div class=
+=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e21"><div class=
+=3D"emp-name">Gilmar Ribeiro De Matos</div><div class=3D"emp-role">ENCARREG=
+ADO DE OBRAS</div></div><div class=3D"emp-card draggable" draggable=3D"true=
+" data-emp-id=3D"e22"><div class=3D"emp-name">Idnei Spader</div><div class=
+=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" d=
+raggable=3D"true" data-emp-id=3D"e23"><div class=3D"emp-name">James Bresil<=
+/div><div class=3D"emp-role">OPERADOR DE RETROESCAVADEIRA</div></div><div c=
+lass=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e24"><div cla=
+ss=3D"emp-name">Jeanlucas Messias Pereira</div><div class=3D"emp-role">SUPE=
+RVISOR</div></div><div class=3D"emp-card draggable" draggable=3D"true" data=
+-emp-id=3D"e25"><div class=3D"emp-name">Jesus Rafael Gutierrez Valles</div>=
+<div class=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-card dr=
+aggable" draggable=3D"true" data-emp-id=3D"e26"><div class=3D"emp-name">Joa=
+o Oliveira Carvalho Neto</div><div class=3D"emp-role">ENCANADOR DE MANUTEN=
+=C3=87=C3=83O</div></div><div class=3D"emp-card draggable" draggable=3D"tru=
+e" data-emp-id=3D"e27"><div class=3D"emp-name">Joedson De Jesus</div><div c=
+lass=3D"emp-role">LIXADOR</div></div><div class=3D"emp-card draggable" drag=
+gable=3D"true" data-emp-id=3D"e28"><div class=3D"emp-name">Jorge Luis Aldan=
+a Almanza</div><div class=3D"emp-role">AUXILIAR DE ALMOXARIFADO</div></div>=
+<div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e29"><d=
+iv class=3D"emp-name">Jorge Wagner Dos Santos Fernandes</div><div class=3D"=
+emp-role">OPERADOR DE PERFURATRIZ</div></div><div class=3D"emp-card draggab=
+le" draggable=3D"true" data-emp-id=3D"e30"><div class=3D"emp-name">Jose Ale=
+ssandro Da Silva</div><div class=3D"emp-role">AJUDANTE GERAL</div></div><di=
+v class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e31"><div =
+class=3D"emp-name">Jose Eduardo Gonzalez Jaramillo</div><div class=3D"emp-r=
+ole">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=
+=3D"true" data-emp-id=3D"e32"><div class=3D"emp-name">Jose Raimundo Da Silv=
+a</div><div class=3D"emp-role">PEDREIRO</div></div><div class=3D"emp-card d=
+raggable" draggable=3D"true" data-emp-id=3D"e33"><div class=3D"emp-name">Jo=
+se Ronaldo Lopes Da Silva</div><div class=3D"emp-role">AJUDANTE GERAL</div>=
+</div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e=
+34"><div class=3D"emp-name">Josue David Rocca Lemus</div><div class=3D"emp-=
+role">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=
+=3D"true" data-emp-id=3D"e35"><div class=3D"emp-name">Jucelso Pereira Da Si=
+lva</div><div class=3D"emp-role">OPERADOR DE PERFURATRIZ</div></div><div cl=
+ass=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e36"><div clas=
+s=3D"emp-name">Kelvin Jose Borjas Amaro</div><div class=3D"emp-role">AJUDAN=
+TE GERAL</div></div><div class=3D"emp-card draggable" draggable=3D"true" da=
+ta-emp-id=3D"e37"><div class=3D"emp-name">Kevin Rivero Diaz</div><div class=
+=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" d=
+raggable=3D"true" data-emp-id=3D"e38"><div class=3D"emp-name">Lazaro Valdes=
+ Santamaria</div><div class=3D"emp-role">MOTORISTA</div></div><div class=3D=
+"emp-card draggable" draggable=3D"true" data-emp-id=3D"e39"><div class=3D"e=
+mp-name">Lian Fruguel Garcia</div><div class=3D"emp-role">MOTORISTA</div></=
+div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e40=
+"><div class=3D"emp-name">Logann Ribeiro Pinho</div><div class=3D"emp-role"=
+>APRENDIZ</div></div><div class=3D"emp-card draggable" draggable=3D"true" d=
+ata-emp-id=3D"e41"><div class=3D"emp-name">Manuel Ignacio Marrero Guevara</=
+div><div class=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-car=
+d draggable" draggable=3D"true" data-emp-id=3D"e42"><div class=3D"emp-name"=
+>Marciel Da Silva Santana</div><div class=3D"emp-role">OPERADOR DE RETROESC=
+AVADEIRA</div></div><div class=3D"emp-card draggable" draggable=3D"true" da=
+ta-emp-id=3D"e43"><div class=3D"emp-name">Marcio Palermo Dos Santos</div><d=
+iv class=3D"emp-role">ENCARREGADO DE OBRAS</div></div><div class=3D"emp-car=
+d draggable" draggable=3D"true" data-emp-id=3D"e44"><div class=3D"emp-name"=
+>Marcos Aurelio De Araujo Santiago</div><div class=3D"emp-role">TECNICO EM =
+SEGURAN=C3=87A DO TRABALHO</div></div><div class=3D"emp-card draggable" dra=
+ggable=3D"true" data-emp-id=3D"e45"><div class=3D"emp-name">Mario De Souza =
+Carvalho Neto</div><div class=3D"emp-role">TECNICO EM SEGURAN=C3=87A DO TRA=
+BALHO</div></div><div class=3D"emp-card draggable" draggable=3D"true" data-=
+emp-id=3D"e46"><div class=3D"emp-name">Mauro Ribeiro Da Silva</div><div cla=
+ss=3D"emp-role">ALMOXARIFE</div></div><div class=3D"emp-card draggable" dra=
+ggable=3D"true" data-emp-id=3D"e47"><div class=3D"emp-name">Nelio Pape Ambr=
+osio</div><div class=3D"emp-role">PEDREIRO</div></div><div class=3D"emp-car=
+d draggable" draggable=3D"true" data-emp-id=3D"e48"><div class=3D"emp-name"=
+>Nestor Eduardo Pacheco Garcia</div><div class=3D"emp-role">AJUDANTE GERAL<=
+/div></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=
+=3D"e49"><div class=3D"emp-name">Nicarlos Ferreira Moreira</div><div class=
+=3D"emp-role">NAVEGADOR</div></div><div class=3D"emp-card draggable" dragga=
+ble=3D"true" data-emp-id=3D"e50"><div class=3D"emp-name">Pablo Ernesto Garc=
+ia Dorrego</div><div class=3D"emp-role">PEDREIRO</div></div><div class=3D"e=
+mp-card draggable" draggable=3D"true" data-emp-id=3D"e51"><div class=3D"emp=
+-name">Paulo Henrique Vasconcelos Chamorro Martins</div><div class=3D"emp-r=
+ole">SUPERVISOR DE MND</div></div><div class=3D"emp-card draggable" draggab=
+le=3D"true" data-emp-id=3D"e52"><div class=3D"emp-name">Paulo Teodoro Nogue=
+ira Filho</div><div class=3D"emp-role">SOLDADOR PEAD</div></div><div class=
+=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e53"><div class=
+=3D"emp-name">Rafael Mirran Bastos De Oliveira</div><div class=3D"emp-role"=
+>APRENDIZ</div></div><div class=3D"emp-card draggable" draggable=3D"true" d=
+ata-emp-id=3D"e54"><div class=3D"emp-name">Raicel Arsenio Bautista Garcia</=
+div><div class=3D"emp-role">MOTORISTA</div></div><div class=3D"emp-card dra=
+ggable" draggable=3D"true" data-emp-id=3D"e55"><div class=3D"emp-name">Raim=
+udo Barbosa De Carvalho</div><div class=3D"emp-role">SOLDADOR</div></div><d=
+iv class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e56"><div=
+ class=3D"emp-name">Renato Luis Cala Montelier</div><div class=3D"emp-role"=
+>AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=3D"t=
+rue" data-emp-id=3D"e57"><div class=3D"emp-name">Rhana Julia Maciel Cordeir=
+o</div><div class=3D"emp-role">MENOR APRENDIZ</div></div><div class=3D"emp-=
+card draggable" draggable=3D"true" data-emp-id=3D"e58"><div class=3D"emp-na=
+me">Ricardo Barbosa Antunes</div><div class=3D"emp-role">SOLDADOR PEAD</div=
+></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"=
+e59"><div class=3D"emp-name">Rider Rodriguez Rojas</div><div class=3D"emp-r=
+ole">AJUDANTE GERAL</div></div><div class=3D"emp-card draggable" draggable=
+=3D"true" data-emp-id=3D"e60"><div class=3D"emp-name">Roberto Paiva Ramos</=
+div><div class=3D"emp-role">TECNICO EM SEGURAN=C3=87A DO TRABALHO</div></di=
+v><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e61">=
+<div class=3D"emp-name">Seuz Antonio Diaz Gonzalez</div><div class=3D"emp-r=
+ole">MOTORISTA</div></div><div class=3D"emp-card draggable" draggable=3D"tr=
+ue" data-emp-id=3D"e62"><div class=3D"emp-name">Simao Carlos Con No</div><d=
+iv class=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-card drag=
+gable" draggable=3D"true" data-emp-id=3D"e63"><div class=3D"emp-name">Ulani=
+ Villa Correa</div><div class=3D"emp-role">AJUDANTE GERAL</div></div><div c=
+lass=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e64"><div cla=
+ss=3D"emp-name">Valdecir Lemos Junior</div><div class=3D"emp-role">MOTORIST=
+A</div></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-=
+id=3D"e65"><div class=3D"emp-name">Valdemir Jose Faria</div><div class=3D"e=
+mp-role">OPERADOR DE MUNCK</div></div><div class=3D"emp-card draggable" dra=
+ggable=3D"true" data-emp-id=3D"e66"><div class=3D"emp-name">Valdomiro Paix=
+=C3=A3o Dos Santos</div><div class=3D"emp-role">ENCARREGADO DE OBRAS</div><=
+/div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e6=
+7"><div class=3D"emp-name">Vanderlei Francisco De Lima</div><div class=3D"e=
+mp-role">OPERADOR DE FURO DIRECIONAL</div></div><div class=3D"emp-card drag=
+gable" draggable=3D"true" data-emp-id=3D"e68"><div class=3D"emp-name">Vande=
+rlei Ribeiro</div><div class=3D"emp-role">AJUDANTE GERAL</div></div><div cl=
+ass=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e69"><div clas=
+s=3D"emp-name">Willian Coelho Pereira</div><div class=3D"emp-role">INSPETOR=
+ DE QUALIDADE</div></div><div class=3D"emp-card draggable" draggable=3D"tru=
+e" data-emp-id=3D"e70"><div class=3D"emp-name">Willian De Paula Benevides</=
+div><div class=3D"emp-role">AJUDANTE GERAL</div></div><div class=3D"emp-car=
+d draggable" draggable=3D"true" data-emp-id=3D"e71"><div class=3D"emp-name"=
+>Wilson Silva Gomes</div><div class=3D"emp-role">NAVEGADOR</div></div><div =
+class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e72"><div cl=
+ass=3D"emp-name">Yadiel Martinez Gomez</div><div class=3D"emp-role">PEDREIR=
+O</div></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-=
+id=3D"e73"><div class=3D"emp-name">Yainer Cardenas Fernandez</div><div clas=
+s=3D"emp-role">PEDREIRO</div></div><div class=3D"emp-card draggable" dragga=
+ble=3D"true" data-emp-id=3D"e74"><div class=3D"emp-name">Walter Enge Gardin=
+i</div><div class=3D"emp-role">COORDENADOR DE PLANEJAMENTO</div></div><div =
+class=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e75"><div cl=
+ass=3D"emp-name">Neviton Vieira Santos</div><div class=3D"emp-role">ENGENHE=
+IRO</div></div><div class=3D"emp-card draggable" draggable=3D"true" data-em=
+p-id=3D"e76"><div class=3D"emp-name">Jose Afonso Dos Santos</div><div class=
+=3D"emp-role">COORDENADOR ADMINISTRATIVO</div></div><div class=3D"emp-card =
+draggable" draggable=3D"true" data-emp-id=3D"e77"><div class=3D"emp-name">C=
+laudinor Do Rocio Pedroro</div><div class=3D"emp-role">INSPETOR DE DUTOS</d=
+iv></div><div class=3D"emp-card draggable" draggable=3D"true" data-emp-id=
+=3D"e78"><div class=3D"emp-name">Menitem Carolina De Castro</div><div class=
+=3D"emp-role">ENGENHEIRA DE SEGURAN=C3=87A DO TRABALHO</div></div><div clas=
+s=3D"emp-card draggable" draggable=3D"true" data-emp-id=3D"e79"><div class=
+=3D"emp-name">Igor Felipe De Amorim Castoldi</div><div class=3D"emp-role">C=
+OORDENADOR DE PLANEJAMENTO</div></div></div>
+    </div>
+    <div class=3D"main">
+      <div class=3D"teams-grid" id=3D"teamsGrid"><div class=3D"team-card" d=
+ata-team-id=3D"t1"><div class=3D"team-header" style=3D"background: linear-g=
+radient(135deg, rgb(26, 58, 92), rgb(45, 106, 159)); color: white;"><span>C=
+oordena=C3=A7=C3=A3o</span><span style=3D"display:flex;align-items:center;g=
+ap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t2"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(52, 58, 64), r=
+gb(108, 117, 125)); color: white;"><span>ADM / Suprimentos</span><span styl=
+e=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t3"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(83, 63, 3), rg=
+b(255, 193, 7)); color: white;"><span>Planejamento / Projeto</span><span st=
+yle=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t4"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(21, 87, 36), r=
+gb(40, 167, 69)); color: white;"><span>SSM / Qualidade</span><span style=3D=
+"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t5"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(114, 28, 36), =
+rgb(220, 53, 69)); color: white;"><span>Equipe 1 =E2=80=93 MND</span><span =
+style=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t6"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(74, 35, 90), r=
+gb(142, 68, 173)); color: white;"><span>Equipe 2 =E2=80=93 MND</span><span =
+style=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t7"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(12, 53, 71), r=
+gb(23, 162, 184)); color: white;"><span>Equipe A=C3=A7o / Ind=C3=BAstrias</=
+span><span style=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div><div class=3D"team-card" data-team-id=3D"t8"><div class=3D"t=
+eam-header" style=3D"background: linear-gradient(135deg, rgb(123, 63, 0), r=
+gb(230, 126, 34)); color: white;"><span>Equipe Civil / Norte</span><span st=
+yle=3D"display:flex;align-items:center;gap:4px">
+      <span class=3D"team-count">0</span>
+      <button class=3D"btn-remove-team">=E2=9C=95</button>
+    </span></div><div class=3D"team-body empty">Arraste funcion=C3=A1rios a=
+qui</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABA FUNCION=C3=81RIOS -->
+<div class=3D"page" id=3D"page-emp" style=3D"overflow-y:auto;height:calc(10=
+0vh - 108px)">
+  <div class=3D"emp-manager">
+    <h2>=F0=9F=91=B7 Gerenciar Funcion=C3=A1rios <span id=3D"empTotalBadge"=
+ style=3D"font-size:13px;color:#888;font-weight:normal">=E2=80=94 79 funcio=
+n=C3=A1rios</span></h2>
+    <div class=3D"emp-toolbar">
+      <input type=3D"text" id=3D"empSearch" placeholder=3D"=F0=9F=94=8D Bus=
+car...">
+      <span id=3D"empLockNote" style=3D"font-size: 12px; color: rgb(230, 12=
+6, 34); display: none;">=F0=9F=94=92 Desbloqueie para adicionar ou excluir =
+funcion=C3=A1rios</span>
+    </div>
+    <div class=3D"emp-table-wrap">
+      <table class=3D"emp-table">
+        <thead><tr><th>#</th><th>Nome</th><th>Cargo</th><th>Status</th><th>=
+Equipe</th><th>A=C3=A7=C3=A3o</th></tr></thead>
+        <tbody id=3D"empTableBody"><tr>
+      <td style=3D"color:#999;width:30px">1</td>
+      <td><strong>Adriano Antonio Sa</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">2</td>
+      <td><strong>Alejandro Beritan Rivero</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">3</td>
+      <td><strong>Alexeis Madruga Ballate</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">4</td>
+      <td><strong>Ana Luiza Santos De Almeida</strong></td>
+      <td style=3D"color:#555;font-size:12px">MENOR APRENDIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">5</td>
+      <td><strong>Andy Ibanez Rivero</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">6</td>
+      <td><strong>Carlos Andre Dos Santos Carvalho</strong></td>
+      <td style=3D"color:#555;font-size:12px">SUPERVISOR DE OBRAS</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">7</td>
+      <td><strong>Carlos Daniel Castillejo Salazar</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">8</td>
+      <td><strong>Clovis Da Concei=C3=A7=C3=A3o</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE RETROESCAVADEIRA<=
+/td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">9</td>
+      <td><strong>Cristian Claro Gomes</strong></td>
+      <td style=3D"color:#555;font-size:12px">TOP=C3=93GRAFO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">10</td>
+      <td><strong>Cristiano Alves De Oliveira</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">11</td>
+      <td><strong>Cristiano Francisco Silva Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">SOLDADOR PEAD</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">12</td>
+      <td><strong>Daiane Da Rocha De Assuncao Barbosa</strong></td>
+      <td style=3D"color:#555;font-size:12px">AUXILIAR DE LIMPEZA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">13</td>
+      <td><strong>David Cortes Hernandez</strong></td>
+      <td style=3D"color:#555;font-size:12px">ASSISTENTE DE QUALIDADE</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">14</td>
+      <td><strong>David Daniel Castillo Cova</strong></td>
+      <td style=3D"color:#555;font-size:12px">PROJETISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">15</td>
+      <td><strong>Dorival Dos Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">16</td>
+      <td><strong>Edimar Espedito Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">SOLDADOR PEAD</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">17</td>
+      <td><strong>Edinaldo Souza Rossw</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE RETROESCAVADEIRA<=
+/td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">18</td>
+      <td><strong>Felix Teodoro Andrade De La Rosa</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">19</td>
+      <td><strong>Frank Ledy Munoz Munoz</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE RETROESCAVADEIRA<=
+/td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">20</td>
+      <td><strong>Gabriele Antonio Pileggi Rodriguez</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">21</td>
+      <td><strong>Gilmar Ribeiro De Matos</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENCARREGADO DE OBRAS</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">22</td>
+      <td><strong>Idnei Spader</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">23</td>
+      <td><strong>James Bresil</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE RETROESCAVADEIRA<=
+/td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">24</td>
+      <td><strong>Jeanlucas Messias Pereira</strong></td>
+      <td style=3D"color:#555;font-size:12px">SUPERVISOR</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">25</td>
+      <td><strong>Jesus Rafael Gutierrez Valles</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">26</td>
+      <td><strong>Joao Oliveira Carvalho Neto</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENCANADOR DE MANUTEN=C3=87=C3=
+=83O</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">27</td>
+      <td><strong>Joedson De Jesus</strong></td>
+      <td style=3D"color:#555;font-size:12px">LIXADOR</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">28</td>
+      <td><strong>Jorge Luis Aldana Almanza</strong></td>
+      <td style=3D"color:#555;font-size:12px">AUXILIAR DE ALMOXARIFADO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">29</td>
+      <td><strong>Jorge Wagner Dos Santos Fernandes</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE PERFURATRIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">30</td>
+      <td><strong>Jose Alessandro Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">31</td>
+      <td><strong>Jose Eduardo Gonzalez Jaramillo</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">32</td>
+      <td><strong>Jose Raimundo Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">PEDREIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">33</td>
+      <td><strong>Jose Ronaldo Lopes Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">34</td>
+      <td><strong>Josue David Rocca Lemus</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">35</td>
+      <td><strong>Jucelso Pereira Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE PERFURATRIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">36</td>
+      <td><strong>Kelvin Jose Borjas Amaro</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">37</td>
+      <td><strong>Kevin Rivero Diaz</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">38</td>
+      <td><strong>Lazaro Valdes Santamaria</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">39</td>
+      <td><strong>Lian Fruguel Garcia</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">40</td>
+      <td><strong>Logann Ribeiro Pinho</strong></td>
+      <td style=3D"color:#555;font-size:12px">APRENDIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">41</td>
+      <td><strong>Manuel Ignacio Marrero Guevara</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">42</td>
+      <td><strong>Marciel Da Silva Santana</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE RETROESCAVADEIRA<=
+/td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">43</td>
+      <td><strong>Marcio Palermo Dos Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENCARREGADO DE OBRAS</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">44</td>
+      <td><strong>Marcos Aurelio De Araujo Santiago</strong></td>
+      <td style=3D"color:#555;font-size:12px">TECNICO EM SEGURAN=C3=87A DO =
+TRABALHO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">45</td>
+      <td><strong>Mario De Souza Carvalho Neto</strong></td>
+      <td style=3D"color:#555;font-size:12px">TECNICO EM SEGURAN=C3=87A DO =
+TRABALHO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">46</td>
+      <td><strong>Mauro Ribeiro Da Silva</strong></td>
+      <td style=3D"color:#555;font-size:12px">ALMOXARIFE</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">47</td>
+      <td><strong>Nelio Pape Ambrosio</strong></td>
+      <td style=3D"color:#555;font-size:12px">PEDREIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">48</td>
+      <td><strong>Nestor Eduardo Pacheco Garcia</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">49</td>
+      <td><strong>Nicarlos Ferreira Moreira</strong></td>
+      <td style=3D"color:#555;font-size:12px">NAVEGADOR</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">50</td>
+      <td><strong>Pablo Ernesto Garcia Dorrego</strong></td>
+      <td style=3D"color:#555;font-size:12px">PEDREIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">51</td>
+      <td><strong>Paulo Henrique Vasconcelos Chamorro Martins</strong></td>
+      <td style=3D"color:#555;font-size:12px">SUPERVISOR DE MND</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">52</td>
+      <td><strong>Paulo Teodoro Nogueira Filho</strong></td>
+      <td style=3D"color:#555;font-size:12px">SOLDADOR PEAD</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">53</td>
+      <td><strong>Rafael Mirran Bastos De Oliveira</strong></td>
+      <td style=3D"color:#555;font-size:12px">APRENDIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">54</td>
+      <td><strong>Raicel Arsenio Bautista Garcia</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">55</td>
+      <td><strong>Raimudo Barbosa De Carvalho</strong></td>
+      <td style=3D"color:#555;font-size:12px">SOLDADOR</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">56</td>
+      <td><strong>Renato Luis Cala Montelier</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">57</td>
+      <td><strong>Rhana Julia Maciel Cordeiro</strong></td>
+      <td style=3D"color:#555;font-size:12px">MENOR APRENDIZ</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">58</td>
+      <td><strong>Ricardo Barbosa Antunes</strong></td>
+      <td style=3D"color:#555;font-size:12px">SOLDADOR PEAD</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">59</td>
+      <td><strong>Rider Rodriguez Rojas</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">60</td>
+      <td><strong>Roberto Paiva Ramos</strong></td>
+      <td style=3D"color:#555;font-size:12px">TECNICO EM SEGURAN=C3=87A DO =
+TRABALHO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">61</td>
+      <td><strong>Seuz Antonio Diaz Gonzalez</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">62</td>
+      <td><strong>Simao Carlos Con No</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">63</td>
+      <td><strong>Ulani Villa Correa</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">64</td>
+      <td><strong>Valdecir Lemos Junior</strong></td>
+      <td style=3D"color:#555;font-size:12px">MOTORISTA</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">65</td>
+      <td><strong>Valdemir Jose Faria</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE MUNCK</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">66</td>
+      <td><strong>Valdomiro Paix=C3=A3o Dos Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENCARREGADO DE OBRAS</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">67</td>
+      <td><strong>Vanderlei Francisco De Lima</strong></td>
+      <td style=3D"color:#555;font-size:12px">OPERADOR DE FURO DIRECIONAL</=
+td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">68</td>
+      <td><strong>Vanderlei Ribeiro</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">69</td>
+      <td><strong>Willian Coelho Pereira</strong></td>
+      <td style=3D"color:#555;font-size:12px">INSPETOR DE QUALIDADE</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">70</td>
+      <td><strong>Willian De Paula Benevides</strong></td>
+      <td style=3D"color:#555;font-size:12px">AJUDANTE GERAL</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">71</td>
+      <td><strong>Wilson Silva Gomes</strong></td>
+      <td style=3D"color:#555;font-size:12px">NAVEGADOR</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">72</td>
+      <td><strong>Yadiel Martinez Gomez</strong></td>
+      <td style=3D"color:#555;font-size:12px">PEDREIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">73</td>
+      <td><strong>Yainer Cardenas Fernandez</strong></td>
+      <td style=3D"color:#555;font-size:12px">PEDREIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">74</td>
+      <td><strong>Walter Enge Gardini</strong></td>
+      <td style=3D"color:#555;font-size:12px">COORDENADOR DE PLANEJAMENTO</=
+td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">75</td>
+      <td><strong>Neviton Vieira Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENGENHEIRO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">76</td>
+      <td><strong>Jose Afonso Dos Santos</strong></td>
+      <td style=3D"color:#555;font-size:12px">COORDENADOR ADMINISTRATIVO</t=
+d>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">77</td>
+      <td><strong>Claudinor Do Rocio Pedroro</strong></td>
+      <td style=3D"color:#555;font-size:12px">INSPETOR DE DUTOS</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">78</td>
+      <td><strong>Menitem Carolina De Castro</strong></td>
+      <td style=3D"color:#555;font-size:12px">ENGENHEIRA DE SEGURAN=C3=87A =
+DO TRABALHO</td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr><tr>
+      <td style=3D"color:#999;width:30px">79</td>
+      <td><strong>Igor Felipe De Amorim Castoldi</strong></td>
+      <td style=3D"color:#555;font-size:12px">COORDENADOR DE PLANEJAMENTO</=
+td>
+      <td><span class=3D"badge-bank">=F0=9F=8F=A6 Banco</span></td>
+      <td style=3D"font-size:12px;color:#555">=E2=80=94</td>
+      <td><button class=3D"btn btn-danger" style=3D"font-size:11px;padding:=
+3px 8px">=F0=9F=97=91 Excluir</button></td></tr></tbody>
+      </table>
+      <div class=3D"add-emp-row" id=3D"addEmpRow" style=3D"display: flex;">
+        <input type=3D"text" id=3D"addName" placeholder=3D"Nome completo do=
+ novo funcion=C3=A1rio">
+        <input type=3D"text" id=3D"addRole" placeholder=3D"Cargo">
+        <button class=3D"btn btn-success">+ Adicionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAIS -->
+<div class=3D"modal-bg" id=3D"modalLock">
+  <div class=3D"modal">
+    <div class=3D"pwd-icon" id=3D"lockIcon">=F0=9F=94=91</div>
+    <h3 id=3D"lockTitle" style=3D"text-align:center;margin-bottom:8px">Desb=
+loquear Edi=C3=A7=C3=A3o</h3>
+    <p class=3D"modal-msg" id=3D"lockMsg">Digite a senha para habilitar a e=
+di=C3=A7=C3=A3o.</p>
+    <label>Senha</label>
+    <div class=3D"pwd-input-wrap">
+      <input type=3D"password" id=3D"pwdInput" placeholder=3D"Digite a senh=
+a">
+      <button class=3D"pwd-toggle" type=3D"button">=F0=9F=91=81</button>
+    </div>
+    <div class=3D"pwd-error" id=3D"pwdError" style=3D"display: none;">Senha=
+ incorreta. Tente novamente.</div>
+    <div class=3D"modal-btns">
+      <button class=3D"btn btn-sec">Cancelar</button>
+      <button class=3D"btn btn-primary">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class=3D"modal-bg" id=3D"modalTeam">
+  <div class=3D"modal">
+    <h3>=E2=9E=95 Nova Equipe</h3>
+    <label>Nome da Equipe</label>
+    <input type=3D"text" id=3D"newTeamName" placeholder=3D"Ex: Equipe Norte=
+">
+    <label>Cor</label>
+    <select id=3D"newTeamColor">
+      <option value=3D"linear-gradient(135deg,#1a3a5c,#2d6a9f)">Azul Escuro=
+</option>
+      <option value=3D"linear-gradient(135deg,#155724,#28a745)">Verde</opti=
+on>
+      <option value=3D"linear-gradient(135deg,#721c24,#dc3545)">Vermelho</o=
+ption>
+      <option value=3D"linear-gradient(135deg,#533f03,#ffc107)">Amarelo</op=
+tion>
+      <option value=3D"linear-gradient(135deg,#4a235a,#8e44ad)">Roxo</optio=
+n>
+      <option value=3D"linear-gradient(135deg,#0c3547,#17a2b8)">Ciano</opti=
+on>
+      <option value=3D"linear-gradient(135deg,#343a40,#6c757d)">Cinza</opti=
+on>
+      <option value=3D"linear-gradient(135deg,#7b3f00,#e67e22)">Laranja</op=
+tion>
+    </select>
+    <div class=3D"modal-btns">
+      <button class=3D"btn btn-sec">Cancelar</button>
+      <button class=3D"btn btn-success">Criar Equipe</button>
+    </div>
+  </div>
+</div>
+
+<div class=3D"modal-bg" id=3D"modalPosition">
+  <div class=3D"modal">
+    <h3>=E2=9A=99 Fun=C3=A7=C3=A3o na Equipe</h3>
+    <label>Fun=C3=A7=C3=A3o / Posi=C3=A7=C3=A3o</label>
+    <input type=3D"text" id=3D"positionInput" placeholder=3D"Ex: Encarregad=
+o, Motorista...">
+    <div class=3D"modal-btns">
+      <button class=3D"btn btn-sec">Cancelar</button>
+      <button class=3D"btn btn-success">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class=3D"modal-bg" id=3D"modalEmployee">
+  <div class=3D"modal">
+    <h3>=E2=9E=95 Adicionar Funcion=C3=A1rio</h3>
+    <p class=3D"modal-msg">O funcion=C3=A1rio ser=C3=A1 adicionado ao banco=
+ de dispon=C3=ADveis.</p>
+    <label>Nome Completo</label>
+    <input type=3D"text" id=3D"newEmpName" placeholder=3D"Nome do funcion=
+=C3=A1rio">
+    <label>Cargo</label>
+    <input type=3D"text" id=3D"newEmpRole" placeholder=3D"Ex: SOLDADOR PEAD=
+">
+    <div class=3D"modal-btns">
+      <button class=3D"btn btn-sec">Cancelar</button>
+      <button class=3D"btn btn-success">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div class=3D"modal-bg" id=3D"modalDelete">
+  <div class=3D"modal">
+    <h3>=F0=9F=97=91 Excluir Funcion=C3=A1rio</h3>
+    <p class=3D"modal-msg" id=3D"deleteMsg"></p>
+    <div class=3D"modal-btns">
+      <button class=3D"btn btn-sec">Cancelar</button>
+      <button class=3D"btn btn-danger">Sim, Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div class=3D"toast" id=3D"toast">=E2=9C=85 Sincroniza=C3=A7=C3=A3o configu=
+rada com sucesso!</div>
+
+
+
+
+</body></html>
+------MultipartBoundary--ecxxnw5dmMWwUtae4bKTi1osTnMQ8gK0UPMUg1s1NJ----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-94065811-ca1d-41bc-89ce-9313286fbae7@mhtml.blink
+
+@charset "utf-8";
+
+* { box-sizing: border-box; margin: 0px; padding: 0px; }
+
+body { font-family: Arial, sans-serif; background: rgb(240, 242, 245); colo=
+r: rgb(34, 34, 34); }
+
+header { background: linear-gradient(135deg, rgb(26, 58, 92), rgb(45, 106, =
+159)); color: white; padding: 12px 20px; display: flex; align-items: center=
+; justify-content: space-between; box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 8p=
+x; }
+
+header h1 { font-size: 15px; font-weight: bold; }
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+
+.lock-status { font-size: 11px; opacity: 0.85; }
+
+.lock-btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(2=
+55, 255, 255, 0.3); color: white; padding: 5px 12px; border-radius: 6px; cu=
+rsor: pointer; font-size: 12px; display: flex; align-items: center; gap: 5p=
+x; transition: 0.2s; }
+
+.lock-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+.sync-indicator { font-size: 11px; padding: 3px 10px; border-radius: 10px; =
+background: rgba(255, 255, 255, 0.15); display: flex; align-items: center; =
+gap: 5px; }
+
+.sync-dot { width: 8px; height: 8px; border-radius: 50%; background: rgb(17=
+0, 170, 170); transition: 0.3s; }
+
+.sync-dot.ok { background: rgb(46, 204, 113); }
+
+.sync-dot.syncing { background: rgb(243, 156, 18); animation: 0.8s ease 0s =
+infinite normal none running pulse; }
+
+.sync-dot.error { background: rgb(231, 76, 60); }
+
+@keyframes pulse {=20
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.tabs { background: rgb(255, 255, 255); border-bottom: 2px solid rgb(221, 2=
+21, 221); display: flex; padding: 0px 16px; }
+
+.tab { padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: b=
+old; color: rgb(102, 102, 102); border-bottom: 3px solid transparent; trans=
+ition: 0.2s; margin-bottom: -2px; }
+
+.tab:hover { color: rgb(45, 106, 159); }
+
+.tab.active { color: rgb(45, 106, 159); border-bottom-color: rgb(45, 106, 1=
+59); }
+
+.toolbar { background: rgb(255, 255, 255); border-bottom: 1px solid rgb(221=
+, 221, 221); padding: 8px 16px; display: flex; gap: 8px; align-items: cente=
+r; flex-wrap: wrap; }
+
+.toolbar input[type=3D"text"] { border: 1px solid rgb(204, 204, 204); borde=
+r-radius: 6px; padding: 6px 10px; font-size: 13px; width: 200px; }
+
+.toolbar select { border: 1px solid rgb(204, 204, 204); border-radius: 6px;=
+ padding: 6px 10px; font-size: 13px; }
+
+.btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer=
+; font-size: 12px; font-weight: bold; transition: 0.2s; white-space: nowrap=
+; }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-primary { background: rgb(45, 106, 159); color: white; }
+
+.btn-primary:hover:not(:disabled) { background: rgb(26, 58, 92); }
+
+.btn-success { background: rgb(40, 167, 69); color: white; }
+
+.btn-success:hover:not(:disabled) { background: rgb(30, 126, 52); }
+
+.btn-danger { background: rgb(220, 53, 69); color: white; }
+
+.btn-danger:hover:not(:disabled) { background: rgb(189, 33, 48); }
+
+.btn-warning { background: rgb(255, 193, 7); color: rgb(51, 51, 51); }
+
+.btn-warning:hover:not(:disabled) { background: rgb(224, 168, 0); }
+
+.btn-sec { background: rgb(108, 117, 125); color: white; }
+
+.btn-sec:hover:not(:disabled) { background: rgb(84, 91, 98); }
+
+.layout { display: flex; height: calc(-142px + 100vh); overflow: hidden; }
+
+.sidebar { width: 265px; min-width: 200px; background: rgb(255, 255, 255); =
+border-right: 2px solid rgb(221, 221, 221); display: flex; flex-direction: =
+column; overflow: hidden; }
+
+.sidebar-header { background: rgb(26, 58, 92); color: white; padding: 10px =
+14px; font-size: 13px; font-weight: bold; display: flex; justify-content: s=
+pace-between; align-items: center; }
+
+.sidebar-header .count { background: rgb(243, 156, 18); color: white; borde=
+r-radius: 10px; padding: 2px 8px; font-size: 11px; }
+
+.employees-list { flex: 1 1 0%; overflow-y: auto; padding: 8px; }
+
+.emp-card { background: rgb(232, 244, 253); border: 1px solid rgb(184, 217,=
+ 240); border-radius: 6px; padding: 7px 10px; margin-bottom: 5px; font-size=
+: 12px; transition: 0.15s; user-select: none; }
+
+.emp-card.draggable { cursor: grab; }
+
+.emp-card.draggable:hover { background: rgb(197, 227, 247); border-color: r=
+gb(45, 106, 159); transform: translateX(2px); }
+
+.emp-card.dragging { opacity: 0.4; }
+
+.emp-name { font-weight: bold; color: rgb(26, 58, 92); }
+
+.emp-role { color: rgb(85, 85, 85); font-size: 11px; margin-top: 2px; }
+
+.main { flex: 1 1 0%; overflow: auto; padding: 16px; }
+
+.teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minma=
+x(280px, 1fr)); gap: 14px; }
+
+.team-card { background: white; border-radius: 10px; border: 2px solid rgb(=
+221, 221, 221); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 6px; overflow: hidd=
+en; transition: 0.2s; }
+
+.team-card.drag-over { border-color: rgb(45, 106, 159); box-shadow: rgba(45=
+, 106, 159, 0.3) 0px 4px 16px; }
+
+.team-header { padding: 10px 14px; font-weight: bold; font-size: 13px; disp=
+lay: flex; justify-content: space-between; align-items: center; }
+
+.team-count { background: rgba(255, 255, 255, 0.35); border-radius: 10px; p=
+adding: 2px 8px; font-size: 11px; }
+
+.btn-remove-team { background: rgba(220, 53, 69, 0.7); color: white; border=
+: none; border-radius: 4px; padding: 1px 6px; font-size: 11px; cursor: poin=
+ter; margin-left: 6px; }
+
+.btn-remove-team:hover { background: rgb(220, 53, 69); }
+
+.team-body { padding: 8px; min-height: 60px; }
+
+.team-body.empty { display: flex; align-items: center; justify-content: cen=
+ter; min-height: 60px; color: rgb(170, 170, 170); font-size: 12px; font-sty=
+le: italic; border: 2px dashed rgb(221, 221, 221); border-radius: 6px; marg=
+in: 4px; }
+
+.team-member { background: rgb(248, 249, 250); border: 1px solid rgb(222, 2=
+26, 230); border-radius: 6px; padding: 6px 10px; margin-bottom: 5px; font-s=
+ize: 12px; transition: 0.15s; user-select: none; display: flex; justify-con=
+tent: space-between; align-items: flex-start; }
+
+.team-member.draggable { cursor: grab; }
+
+.team-member.draggable:hover { background: rgb(233, 236, 239); }
+
+.team-member.dragging { opacity: 0.4; }
+
+.member-info { flex: 1 1 0%; }
+
+.member-name { font-weight: bold; color: rgb(26, 58, 92); }
+
+.member-role-tag { color: rgb(85, 85, 85); font-size: 11px; margin-top: 2px=
+; }
+
+.member-position { background: rgb(108, 117, 125); color: white; font-size:=
+ 10px; border-radius: 3px; padding: 1px 5px; margin-top: 3px; display: inli=
+ne-block; cursor: pointer; }
+
+.pos-edit { background: none; border: none; color: rgb(170, 170, 170); curs=
+or: pointer; font-size: 11px; padding: 1px 4px; border-radius: 3px; }
+
+.pos-edit:hover { background: rgb(233, 236, 239); color: rgb(85, 85, 85); }
+
+.btn-remove-member { background: none; border: none; color: rgb(220, 53, 69=
+); cursor: pointer; font-size: 15px; padding: 0px 2px; opacity: 0.45; line-=
+height: 1; }
+
+.btn-remove-member:hover { opacity: 1; }
+
+.emp-manager { padding: 20px; max-width: 960px; margin: 0px auto; }
+
+.emp-manager h2 { color: rgb(26, 58, 92); margin-bottom: 16px; font-size: 1=
+6px; }
+
+.emp-toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wra=
+p; align-items: center; }
+
+.emp-toolbar input { border: 1px solid rgb(204, 204, 204); border-radius: 6=
+px; padding: 6px 10px; font-size: 13px; width: 220px; }
+
+.emp-table-wrap { background: white; border-radius: 10px; box-shadow: rgba(=
+0, 0, 0, 0.08) 0px 2px 8px; overflow: hidden; }
+
+.emp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.emp-table th { background: rgb(26, 58, 92); color: white; padding: 10px 14=
+px; text-align: left; font-size: 12px; }
+
+.emp-table td { padding: 9px 14px; border-bottom: 1px solid rgb(240, 240, 2=
+40); vertical-align: middle; }
+
+.emp-table tr:last-child td { border-bottom: none; }
+
+.emp-table tr:hover td { background: rgb(248, 249, 250); }
+
+.badge-bank { display: inline-block; padding: 2px 8px; border-radius: 10px;=
+ font-size: 11px; font-weight: bold; background: rgb(209, 236, 241); color:=
+ rgb(12, 84, 96); }
+
+.badge-team { display: inline-block; padding: 2px 8px; border-radius: 10px;=
+ font-size: 11px; font-weight: bold; background: rgb(212, 237, 218); color:=
+ rgb(21, 87, 36); }
+
+.add-emp-row { background: rgb(248, 249, 250); display: none; gap: 8px; pad=
+ding: 12px; border-top: 2px solid rgb(238, 238, 238); flex-wrap: wrap; alig=
+n-items: center; }
+
+.add-emp-row input { border: 1px solid rgb(204, 204, 204); border-radius: 6=
+px; padding: 7px 10px; font-size: 13px; flex: 1 1 0%; min-width: 140px; }
+
+.setup-screen { display: none; position: fixed; inset: 0px; background: rgb=
+(240, 242, 245); z-index: 500; align-items: center; justify-content: center=
+; }
+
+.setup-screen.show { display: flex; }
+
+.setup-box { background: white; border-radius: 14px; padding: 32px; width: =
+480px; max-width: 95vw; box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 32px; }
+
+.setup-box h2 { color: rgb(26, 58, 92); margin-bottom: 8px; font-size: 20px=
+; }
+
+.setup-box p { color: rgb(102, 102, 102); font-size: 13px; margin-bottom: 2=
+0px; line-height: 1.6; }
+
+.setup-step { background: rgb(248, 249, 250); border-radius: 8px; padding: =
+14px 16px; margin-bottom: 12px; border-left: 4px solid rgb(45, 106, 159); }
+
+.setup-step h4 { color: rgb(26, 58, 92); font-size: 13px; margin-bottom: 4p=
+x; }
+
+.setup-step p { color: rgb(85, 85, 85); font-size: 12px; margin-bottom: 8px=
+; }
+
+.setup-step input { width: 100%; border: 1px solid rgb(204, 204, 204); bord=
+er-radius: 6px; padding: 8px 10px; font-size: 13px; }
+
+.setup-step a { color: rgb(45, 106, 159); font-size: 12px; }
+
+.setup-errmsg { color: rgb(220, 53, 69); font-size: 12px; margin-top: 6px; =
+display: none; }
+
+.setup-errmsg.show { display: block; }
+
+.modal-bg { display: none; position: fixed; inset: 0px; background: rgba(0,=
+ 0, 0, 0.5); z-index: 300; align-items: center; justify-content: center; }
+
+.modal-bg.show { display: flex; }
+
+.modal { background: white; border-radius: 10px; padding: 24px; width: 380p=
+x; max-width: 95vw; }
+
+.modal h3 { margin-bottom: 16px; color: rgb(26, 58, 92); font-size: 15px; }
+
+.modal label { display: block; font-size: 13px; margin-bottom: 4px; font-we=
+ight: bold; color: rgb(68, 68, 68); }
+
+.modal input, .modal select { width: 100%; border: 1px solid rgb(204, 204, =
+204); border-radius: 6px; padding: 8px 10px; font-size: 13px; margin-bottom=
+: 14px; }
+
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-to=
+p: 4px; }
+
+.modal-msg { font-size: 13px; color: rgb(85, 85, 85); margin-bottom: 16px; =
+line-height: 1.6; }
+
+.pwd-icon { font-size: 28px; text-align: center; margin-bottom: 10px; }
+
+.pwd-input-wrap { position: relative; }
+
+.pwd-input-wrap input { padding-right: 38px; }
+
+.pwd-toggle { position: absolute; right: 10px; top: 50%; transform: transla=
+teY(-60%); background: none; border: none; cursor: pointer; color: rgb(136,=
+ 136, 136); font-size: 15px; }
+
+.pwd-error { color: rgb(220, 53, 69); font-size: 12px; margin-top: -10px; m=
+argin-bottom: 12px; display: none; }
+
+.page { display: none; }
+
+.page.active { display: block; }
+
+.toast { position: fixed; bottom: 24px; right: 24px; background: rgb(51, 51=
+, 51); color: white; padding: 10px 18px; border-radius: 8px; font-size: 13p=
+x; z-index: 999; opacity: 0; transition: 0.3s; pointer-events: none; }
+
+.toast.show { opacity: 1; }
+
+.toast.green { background: rgb(40, 167, 69); }
+
+.toast.red { background: rgb(220, 53, 69); }
+------MultipartBoundary--ecxxnw5dmMWwUtae4bKTi1osTnMQ8gK0UPMUg1s1NJ------
