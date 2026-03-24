@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organograma Interativo – Curitiba | Compagás</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f2f5; color: #222; }
+
+header {
+  background: linear-gradient(135deg, #1a3a5c, #2d6a9f);
+  color: white; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+header h1 { font-size: 15px; font-weight: bold; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.lock-status { font-size: 11px; opacity: 0.85; }
+.lock-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; padding: 5px 12px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; display: flex; align-items: center; gap: 5px; transition: 0.2s;
+}
+.lock-btn:hover { background: rgba(255,255,255,0.25); }
+.sync-indicator {
+  font-size: 11px; padding: 3px 10px; border-radius: 10px;
+  background: rgba(255,255,255,0.15); display: flex; align-items: center; gap: 5px;
+}
+.sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #aaa; transition: 0.3s; }
+.sync-dot.ok { background: #2ecc71; }
+.sync-dot.syncing { background: #f39c12; animation: pulse 0.8s infinite; }
+.sync-dot.error { background: #e74c3c; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.tabs { background: #fff; border-bottom: 2px solid #ddd; display: flex; padding: 0 16px; }
+.tab { padding: 10px 20px; cursor: pointer; font-size: 13px; font-weight: bold; color: #666; border-bottom: 3px solid transparent; transition: 0.2s; margin-bottom: -2px; }
+.tab:hover { color: #2d6a9f; }
+.tab.active { color: #2d6a9f; border-bottom-color: #2d6a9f; }
+
+.toolbar { background: #fff; border-bottom: 1px solid #ddd; padding: 8px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.toolbar input[type=text] { border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; font-size: 13px; width: 200px; }
+.toolbar select { border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
+.btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; white-space: nowrap; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: #2d6a9f; color: white; }
+.btn-primary:hover:not(:disabled) { background: #1a3a5c; }
+.btn-success { background: #28a745; color: white; }
+.btn-success:hover:not(:disabled) { background: #1e7e34; }
+.btn-danger { background: #dc3545; color: white; }
+.btn-danger:hover:not(:disabled) { background: #bd2130; }
+.btn-warning { background: #ffc107; color: #333; }
+.btn-warning:hover:not(:disabled) { background: #e0a800; }
+.btn-sec { background: #6c757d; color: white; }
+.btn-sec:hover:not(:disabled) { background: #545b62; }
+
+.layout { display: flex; height: calc(100vh - 142px); overflow: hidden; }
+.sidebar { width: 265px; min-width: 200px; background: #fff; border-right: 2px solid #ddd; display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-header { background: #1a3a5c; color: white; padding: 10px 14px; font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+.sidebar-header .count { background: #f39c12; color: white; border-radius: 10px; padding: 2px 8px; font-size: 11px; }
+.employees-list { flex: 1; overflow-y: auto; padding: 8px; }
+
+.emp-card { background: #e8f4fd; border: 1px solid #b8d9f0; border-radius: 6px; padding: 7px 10px; margin-bottom: 5px; font-size: 12px; transition: 0.15s; user-select: none; }
+.emp-card.draggable { cursor: grab; }
+.emp-card.draggable:hover { background: #c5e3f7; border-color: #2d6a9f; transform: translateX(2px); }
+.emp-card.dragging { opacity: 0.4; }
+.emp-name { font-weight: bold; color: #1a3a5c; }
+.emp-role { color: #555; font-size: 11px; margin-top: 2px; }
+
+.main { flex: 1; overflow: auto; padding: 16px; }
+.teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+
+.team-card { background: white; border-radius: 10px; border: 2px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.08); overflow: hidden; transition: 0.2s; }
+.team-card.drag-over { border-color: #2d6a9f; box-shadow: 0 4px 16px rgba(45,106,159,0.3); }
+.team-header { padding: 10px 14px; font-weight: bold; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+.team-count { background: rgba(255,255,255,0.35); border-radius: 10px; padding: 2px 8px; font-size: 11px; }
+.btn-remove-team { background: rgba(220,53,69,0.7); color: white; border: none; border-radius: 4px; padding: 1px 6px; font-size: 11px; cursor: pointer; margin-left: 6px; }
+.btn-remove-team:hover { background: #dc3545; }
+.team-body { padding: 8px; min-height: 60px; }
+.team-body.empty { display: flex; align-items: center; justify-content: center; min-height: 60px; color: #aaa; font-size: 12px; font-style: italic; border: 2px dashed #ddd; border-radius: 6px; margin: 4px; }
+
+.team-member { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 6px 10px; margin-bottom: 5px; font-size: 12px; transition: 0.15s; user-select: none; display: flex; justify-content: space-between; align-items: flex-start; }
+.team-member.draggable { cursor: grab; }
+.team-member.draggable:hover { background: #e9ecef; }
+.team-member.dragging { opacity: 0.4; }
+.member-info { flex: 1; }
+.member-name { font-weight: bold; color: #1a3a5c; }
+.member-role-tag { color: #555; font-size: 11px; margin-top: 2px; }
+.member-position { background: #6c757d; color: white; font-size: 10px; border-radius: 3px; padding: 1px 5px; margin-top: 3px; display: inline-block; cursor: pointer; }
+.pos-edit { background: none; border: none; color: #aaa; cursor: pointer; font-size: 11px; padding: 1px 4px; border-radius: 3px; }
+.pos-edit:hover { background: #e9ecef; color: #555; }
+.btn-remove-member { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 15px; padding: 0 2px; opacity: 0.45; line-height: 1; }
+.btn-remove-member:hover { opacity: 1; }
+
+.emp-manager { padding: 20px; max-width: 960px; margin: 0 auto; }
+.emp-manager h2 { color: #1a3a5c; margin-bottom: 16px; font-size: 16px; }
+.emp-toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.emp-toolbar input { border: 1px solid #ccc; border-radius: 6px; padding: 6px 10px; font-size: 13px; width: 220px; }
+.emp-table-wrap { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+.emp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.emp-table th { background: #1a3a5c; color: white; padding: 10px 14px; text-align: left; font-size: 12px; }
+.emp-table td { padding: 9px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.emp-table tr:last-child td { border-bottom: none; }
+.emp-table tr:hover td { background: #f8f9fa; }
+.badge-bank { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold; background:#d1ecf1; color:#0c5460; }
+.badge-team { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold; background:#d4edda; color:#155724; }
+.add-emp-row { background: #f8f9fa; display: none; gap: 8px; padding: 12px; border-top: 2px solid #eee; flex-wrap: wrap; align-items: center; }
+.add-emp-row input { border: 1px solid #ccc; border-radius: 6px; padding: 7px 10px; font-size: 13px; flex: 1; min-width: 140px; }
+
+/* SETUP SCREEN */
+.setup-screen { display:none; position:fixed; inset:0; background:#f0f2f5; z-index:500; align-items:center; justify-content:center; }
+.setup-screen.show { display:flex; }
+.setup-box { background:white; border-radius:14px; padding:32px; width:480px; max-width:95vw; box-shadow:0 8px 32px rgba(0,0,0,0.15); }
+.setup-box h2 { color:#1a3a5c; margin-bottom:8px; font-size:20px; }
+.setup-box p { color:#666; font-size:13px; margin-bottom:20px; line-height:1.6; }
+.setup-step { background:#f8f9fa; border-radius:8px; padding:14px 16px; margin-bottom:12px; border-left:4px solid #2d6a9f; }
+.setup-step h4 { color:#1a3a5c; font-size:13px; margin-bottom:4px; }
+.setup-step p { color:#555; font-size:12px; margin-bottom:8px; }
+.setup-step input { width:100%; border:1px solid #ccc; border-radius:6px; padding:8px 10px; font-size:13px; }
+.setup-step a { color:#2d6a9f; font-size:12px; }
+.setup-errmsg { color:#dc3545; font-size:12px; margin-top:6px; display:none; }
+.setup-errmsg.show { display:block; }
+
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; align-items: center; justify-content: center; }
+.modal-bg.show { display: flex; }
+.modal { background: white; border-radius: 10px; padding: 24px; width: 380px; max-width: 95vw; }
+.modal h3 { margin-bottom: 16px; color: #1a3a5c; font-size: 15px; }
+.modal label { display: block; font-size: 13px; margin-bottom: 4px; font-weight: bold; color: #444; }
+.modal input, .modal select { width: 100%; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 13px; margin-bottom: 14px; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+.modal-msg { font-size: 13px; color: #555; margin-bottom: 16px; line-height: 1.6; }
+.pwd-icon { font-size: 28px; text-align: center; margin-bottom: 10px; }
+.pwd-input-wrap { position: relative; }
+.pwd-input-wrap input { padding-right: 38px; }
+.pwd-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-60%); background: none; border: none; cursor: pointer; color: #888; font-size: 15px; }
+.pwd-error { color: #dc3545; font-size: 12px; margin-top: -10px; margin-bottom: 12px; display: none; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* TOAST */
+.toast { position:fixed; bottom:24px; right:24px; background:#333; color:white; padding:10px 18px; border-radius:8px; font-size:13px; z-index:999; opacity:0; transition:0.3s; pointer-events:none; }
+.toast.show { opacity:1; }
+.toast.green { background:#28a745; }
+.toast.red { background:#dc3545; }
+</style>
+</head>
+<body>
+
+<!-- TELA DE CONFIGURAÇÃO INICIAL -->
+<div class="setup-screen show" id="setupScreen">
+  <div class="setup-box">
+    <h2>⚙️ Configuração Inicial</h2>
+    <p>Para sincronização em tempo real entre todos os usuários, é necessário configurar uma chave do <strong>JSONBin.io</strong> (serviço gratuito). Faça isso <strong>uma única vez</strong> — depois todos abrirão o arquivo normalmente.</p>
+
+    <div class="setup-step">
+      <h4>1. Crie sua conta gratuita</h4>
+      <p>Acesse <a href="https://jsonbin.io" target="_blank">jsonbin.io</a>, clique em <strong>Sign Up</strong> e crie uma conta grátis.</p>
+    </div>
+
+    <div class="setup-step">
+      <h4>2. Copie sua API Key</h4>
+      <p>Após entrar, clique no seu perfil → <strong>API Keys</strong> → copie a chave (começa com <code>$2a$</code> ou <code>$2b$</code>)</p>
+      <input type="text" id="setupApiKey" placeholder="Cole aqui sua API Key do JSONBin.io">
+    </div>
+
+    <div class="setup-step">
+      <h4>3. Dê um nome para identificar este organograma</h4>
+      <input type="text" id="setupBinName" placeholder="Ex: Organograma Curitiba Compagás" value="Organograma Curitiba Compagás">
+    </div>
+
+    <div class="setup-errmsg" id="setupErr">Erro ao conectar. Verifique a API Key e tente novamente.</div>
+    <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
+      <button class="btn btn-sec" onclick="skipSetup()">Usar sem sincronização</button>
+      <button class="btn btn-primary" onclick="doSetup()" id="setupBtn">✅ Configurar e Começar</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <h1>📋 Organograma Interativo – Curitiba &nbsp;|&nbsp; Engenharia de Infraestrutura Urbana – Compagás</h1>
+  <div class="header-right">
+    <div class="sync-indicator" id="syncIndicator" title="Status da sincronização">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">Sem sync</span>
+    </div>
+    <span class="lock-status" id="lockStatus">🔒 Somente leitura</span>
+    <button class="lock-btn" id="lockBtn" onclick="openLockModal()">🔑 Desbloquear</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" id="tab-org" onclick="switchTab('org')">📊 Organograma</div>
+  <div class="tab" id="tab-emp" onclick="switchTab('emp')">👷 Gerenciar Funcionários</div>
+</div>
+
+<!-- ABA ORGANOGRAMA -->
+<div class="page active" id="page-org">
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="🔍 Buscar funcionário..." oninput="filterEmployees()">
+    <select id="filterRole" onchange="filterEmployees()"><option value="">Todos os cargos</option></select>
+    <button class="btn btn-primary" id="btnNewTeam" onclick="openAddTeam()" disabled>+ Nova Equipe</button>
+    <button class="btn btn-warning" id="btnNewEmp" onclick="openAddEmployee()" disabled>+ Funcionário</button>
+    <button class="btn btn-success" onclick="exportData()">💾 Exportar JSON</button>
+    <button class="btn btn-sec" onclick="importData()">📂 Importar JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-header">👷 Banco de Funcionários <span class="count" id="sidebarCount">0</span></div>
+      <div class="employees-list" id="employeesList"
+        ondragover="event.preventDefault()"
+        ondrop="dropToBank(event)">
+      </div>
+    </div>
+    <div class="main">
+      <div class="teams-grid" id="teamsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABA FUNCIONÁRIOS -->
+<div class="page" id="page-emp" style="overflow-y:auto;height:calc(100vh - 108px)">
+  <div class="emp-manager">
+    <h2>👷 Gerenciar Funcionários <span id="empTotalBadge" style="font-size:13px;color:#888;font-weight:normal"></span></h2>
+    <div class="emp-toolbar">
+      <input type="text" id="empSearch" placeholder="🔍 Buscar..." oninput="renderEmpTable()">
+      <span id="empLockNote" style="font-size:12px;color:#e67e22;">🔒 Desbloqueie para adicionar ou excluir funcionários</span>
+    </div>
+    <div class="emp-table-wrap">
+      <table class="emp-table">
+        <thead><tr><th>#</th><th>Nome</th><th>Cargo</th><th>Status</th><th>Equipe</th><th>Ação</th></tr></thead>
+        <tbody id="empTableBody"></tbody>
+      </table>
+      <div class="add-emp-row" id="addEmpRow">
+        <input type="text" id="addName" placeholder="Nome completo do novo funcionário">
+        <input type="text" id="addRole" placeholder="Cargo">
+        <button class="btn btn-success" onclick="confirmAddEmployee()">+ Adicionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAIS -->
+<div class="modal-bg" id="modalLock">
+  <div class="modal">
+    <div class="pwd-icon" id="lockIcon">🔑</div>
+    <h3 id="lockTitle" style="text-align:center;margin-bottom:8px">Desbloquear Edição</h3>
+    <p class="modal-msg" id="lockMsg">Digite a senha para habilitar a edição do organograma.</p>
+    <label>Senha</label>
+    <div class="pwd-input-wrap">
+      <input type="password" id="pwdInput" placeholder="Digite a senha">
+      <button class="pwd-toggle" type="button" onclick="togglePwd()">👁</button>
+    </div>
+    <div class="pwd-error" id="pwdError">Senha incorreta. Tente novamente.</div>
+    <div class="modal-btns">
+      <button class="btn btn-sec" onclick="closeModal('modalLock')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmLock()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalTeam">
+  <div class="modal">
+    <h3>➕ Nova Equipe</h3>
+    <label>Nome da Equipe</label>
+    <input type="text" id="newTeamName" placeholder="Ex: Equipe Norte">
+    <label>Cor</label>
+    <select id="newTeamColor">
+      <option value="linear-gradient(135deg,#1a3a5c,#2d6a9f)">Azul Escuro</option>
+      <option value="linear-gradient(135deg,#155724,#28a745)">Verde</option>
+      <option value="linear-gradient(135deg,#721c24,#dc3545)">Vermelho</option>
+      <option value="linear-gradient(135deg,#533f03,#ffc107)">Amarelo</option>
+      <option value="linear-gradient(135deg,#4a235a,#8e44ad)">Roxo</option>
+      <option value="linear-gradient(135deg,#0c3547,#17a2b8)">Ciano</option>
+      <option value="linear-gradient(135deg,#343a40,#6c757d)">Cinza</option>
+      <option value="linear-gradient(135deg,#7b3f00,#e67e22)">Laranja</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn btn-sec" onclick="closeModal('modalTeam')">Cancelar</button>
+      <button class="btn btn-success" onclick="confirmAddTeam()">Criar Equipe</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalPosition">
+  <div class="modal">
+    <h3>⚙ Função na Equipe</h3>
+    <label>Função / Posição</label>
+    <input type="text" id="positionInput" placeholder="Ex: Encarregado, Motorista...">
+    <div class="modal-btns">
+      <button class="btn btn-sec" onclick="closeModal('modalPosition');pendingPosition=null;">Cancelar</button>
+      <button class="btn btn-success" onclick="confirmPosition()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalEmployee">
+  <div class="modal">
+    <h3>➕ Adicionar Funcionário</h3>
+    <p class="modal-msg">O funcionário será adicionado ao banco de disponíveis.</p>
+    <label>Nome Completo</label>
+    <input type="text" id="newEmpName" placeholder="Nome do funcionário">
+    <label>Cargo</label>
+    <input type="text" id="newEmpRole" placeholder="Ex: SOLDADOR PEAD">
+    <div class="modal-btns">
+      <button class="btn btn-sec" onclick="closeModal('modalEmployee')">Cancelar</button>
+      <button class="btn btn-success" onclick="confirmAddEmpModal()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalDelete">
+  <div class="modal">
+    <h3>🗑 Excluir Funcionário</h3>
+    <p class="modal-msg" id="deleteMsg"></p>
+    <div class="modal-btns">
+      <button class="btn btn-sec" onclick="closeModal('modalDelete')">Cancelar</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Sim, Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════
+// CONFIGURAÇÃO
+// ════════════════════════════════════════════════
+const EDIT_PASSWORD = 'conexao2026';
+
+// ════════════════════════════════════════════════
+// JSONBIN — SINCRONIZAÇÃO
+// ════════════════════════════════════════════════
+let JSONBIN_KEY = localStorage.getItem('org_jsonbin_key') || '';
+let JSONBIN_BIN = localStorage.getItem('org_jsonbin_bin') || '';
+let syncEnabled = !!(JSONBIN_KEY && JSONBIN_BIN);
+let syncTimer = null;
+let pollTimer = null;
+let lastSyncHash = '';
+
+async function doSetup() {
+  const key = document.getElementById('setupApiKey').value.trim();
+  const name = document.getElementById('setupBinName').value.trim() || 'Organograma';
+  if (!key) { showSetupErr('Cole a API Key do JSONBin.io.'); return; }
+  document.getElementById('setupBtn').textContent = 'Conectando...';
+  document.getElementById('setupBtn').disabled = true;
+  document.getElementById('setupErr').classList.remove('show');
+  try {
+    const res = await fetch('https://api.jsonbin.io/v3/b', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': key,
+        'X-Bin-Name': name,
+        'X-Bin-Private': 'false'
+      },
+      body: JSON.stringify(getDefaultState())
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      const msg = data?.message || ('Erro ' + res.status);
+      showSetupErr('JSONBin respondeu: ' + msg + ' — Verifique se a API Key está correta.');
+      document.getElementById('setupBtn').textContent = '✅ Configurar e Começar';
+      document.getElementById('setupBtn').disabled = false;
+      return;
+    }
+    JSONBIN_KEY = key;
+    JSONBIN_BIN = data.metadata.id;
+    localStorage.setItem('org_jsonbin_key', JSONBIN_KEY);
+    localStorage.setItem('org_jsonbin_bin', JSONBIN_BIN);
+    syncEnabled = true;
+    document.getElementById('setupScreen').classList.remove('show');
+    loadDefaults();
+    populateRoleFilter();
+    render();
+    startPolling();
+    setSyncStatus('ok', '🟢 Sincronizado');
+    showToast('✅ Sincronização configurada com sucesso!', 'green');
+  } catch(e) {
+    showSetupErr('Erro de rede: ' + e.message + ' — Verifique sua conexão com a internet.');
+    document.getElementById('setupBtn').textContent = '✅ Configurar e Começar';
+    document.getElementById('setupBtn').disabled = false;
+  }
+}
+
+function showSetupErr(msg) {
+  const el = document.getElementById('setupErr');
+  el.textContent = msg; el.classList.add('show');
+}
+
+function skipSetup() {
+  document.getElementById('setupScreen').classList.remove('show');
+  loadFromLocalOrDefaults();
+  populateRoleFilter();
+  render();
+  setSyncStatus('error', '⚫ Sem sync');
+}
+
+async function pushToCloud() {
+  if (!syncEnabled) { saveLocal(); return; }
+  const body = JSON.stringify(state);
+  const hash = simpleHash(body);
+  if (hash === lastSyncHash) return;
+  setSyncStatus('syncing', '🟡 Salvando...');
+  try {
+    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+      body
+    });
+    lastSyncHash = hash;
+    setSyncStatus('ok', '🟢 Sincronizado');
+    saveLocal();
+  } catch(e) {
+    setSyncStatus('error', '🔴 Erro ao salvar');
+    saveLocal();
+  }
+}
+
+async function pullFromCloud() {
+  if (!syncEnabled) return;
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const body = JSON.stringify(data.record);
+    const hash = simpleHash(body);
+    if (hash === lastSyncHash) return; // sem mudanças
+    lastSyncHash = hash;
+    state = data.record;
+    mergeNewEmployees();
+    render();
+    setSyncStatus('ok', '🟢 Sincronizado');
+    saveLocal();
+  } catch(e) {
+    setSyncStatus('error', '🔴 Sem conexão');
+  }
+}
+
+function startPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(pullFromCloud, 8000); // verifica a cada 8s
+}
+
+function schedulePush() {
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushToCloud, 1200); // debounce 1.2s após última ação
+}
+
+function setSyncStatus(type, label) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  dot.className = 'sync-dot ' + type;
+  lbl.textContent = label;
+}
+
+function simpleHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+  return h;
+}
+
+// ════════════════════════════════════════════════
+// DADOS INICIAIS
+// ════════════════════════════════════════════════
+const ALL_EMPLOYEES_INITIAL = [
+  {id:'e1',  name:'ADRIANO ANTONIO SA',                          role:'AJUDANTE GERAL'},
+  {id:'e2',  name:'ALEJANDRO BERITAN RIVERO',                    role:'AJUDANTE GERAL'},
+  {id:'e3',  name:'ALEXEIS MADRUGA BALLATE',                     role:'MOTORISTA'},
+  {id:'e4',  name:'ANA LUIZA SANTOS DE ALMEIDA',                 role:'MENOR APRENDIZ'},
+  {id:'e5',  name:'ANDY IBANEZ RIVERO',                          role:'AJUDANTE GERAL'},
+  {id:'e6',  name:'CARLOS ANDRE DOS SANTOS CARVALHO',            role:'SUPERVISOR DE OBRAS'},
+  {id:'e7',  name:'CARLOS DANIEL CASTILLEJO SALAZAR',            role:'AJUDANTE GERAL'},
+  {id:'e8',  name:'CLOVIS DA CONCEIÇÃO',                         role:'OPERADOR DE RETROESCAVADEIRA'},
+  {id:'e9',  name:'CRISTIAN CLARO GOMES',                        role:'TOPÓGRAFO'},
+  {id:'e10', name:'CRISTIANO ALVES DE OLIVEIRA',                 role:'AJUDANTE GERAL'},
+  {id:'e11', name:'CRISTIANO FRANCISCO SILVA SANTOS',            role:'SOLDADOR PEAD'},
+  {id:'e12', name:'DAIANE DA ROCHA DE ASSUNCAO BARBOSA',         role:'AUXILIAR DE LIMPEZA'},
+  {id:'e13', name:'DAVID CORTES HERNANDEZ',                      role:'ASSISTENTE DE QUALIDADE'},
+  {id:'e14', name:'DAVID DANIEL CASTILLO COVA',                  role:'PROJETISTA'},
+  {id:'e15', name:'DORIVAL DOS SANTOS',                          role:'MOTORISTA'},
+  {id:'e16', name:'EDIMAR ESPEDITO DA SILVA',                    role:'SOLDADOR PEAD'},
+  {id:'e17', name:'EDINALDO SOUZA ROSSW',                        role:'OPERADOR DE RETROESCAVADEIRA'},
+  {id:'e18', name:'FELIX TEODORO ANDRADE DE LA ROSA',            role:'AJUDANTE GERAL'},
+  {id:'e19', name:'FRANK LEDY MUNOZ MUNOZ',                      role:'OPERADOR DE RETROESCAVADEIRA'},
+  {id:'e20', name:'GABRIELE ANTONIO PILEGGI RODRIGUEZ',          role:'MOTORISTA'},
+  {id:'e21', name:'GILMAR RIBEIRO DE MATOS',                     role:'ENCARREGADO DE OBRAS'},
+  {id:'e22', name:'IDNEI SPADER',                                role:'AJUDANTE GERAL'},
+  {id:'e23', name:'JAMES BRESIL',                                role:'OPERADOR DE RETROESCAVADEIRA'},
+  {id:'e24', name:'JEANLUCAS MESSIAS PEREIRA',                   role:'SUPERVISOR'},
+  {id:'e25', name:'JESUS RAFAEL GUTIERREZ VALLES',               role:'AJUDANTE GERAL'},
+  {id:'e26', name:'JOAO OLIVEIRA CARVALHO NETO',                 role:'ENCANADOR DE MANUTENÇÃO'},
+  {id:'e27', name:'JOEDSON DE JESUS',                            role:'LIXADOR'},
+  {id:'e28', name:'JORGE LUIS ALDANA ALMANZA',                   role:'AUXILIAR DE ALMOXARIFADO'},
+  {id:'e29', name:'JORGE WAGNER DOS SANTOS FERNANDES',           role:'OPERADOR DE PERFURATRIZ'},
+  {id:'e30', name:'JOSE ALESSANDRO DA SILVA',                    role:'AJUDANTE GERAL'},
+  {id:'e31', name:'JOSE EDUARDO GONZALEZ JARAMILLO',             role:'AJUDANTE GERAL'},
+  {id:'e32', name:'JOSE RAIMUNDO DA SILVA',                      role:'PEDREIRO'},
+  {id:'e33', name:'JOSE RONALDO LOPES DA SILVA',                 role:'AJUDANTE GERAL'},
+  {id:'e34', name:'JOSUE DAVID ROCCA LEMUS',                     role:'AJUDANTE GERAL'},
+  {id:'e35', name:'JUCELSO PEREIRA DA SILVA',                    role:'OPERADOR DE PERFURATRIZ'},
+  {id:'e36', name:'KELVIN JOSE BORJAS AMARO',                    role:'AJUDANTE GERAL'},
+  {id:'e37', name:'KEVIN RIVERO DIAZ',                           role:'AJUDANTE GERAL'},
+  {id:'e38', name:'LAZARO VALDES SANTAMARIA',                    role:'MOTORISTA'},
+  {id:'e39', name:'LIAN FRUGUEL GARCIA',                         role:'MOTORISTA'},
+  {id:'e40', name:'LOGANN RIBEIRO PINHO',                        role:'APRENDIZ'},
+  {id:'e41', name:'MANUEL IGNACIO MARRERO GUEVARA',              role:'AJUDANTE GERAL'},
+  {id:'e42', name:'MARCIEL DA SILVA SANTANA',                    role:'OPERADOR DE RETROESCAVADEIRA'},
+  {id:'e43', name:'MARCIO PALERMO DOS SANTOS',                   role:'ENCARREGADO DE OBRAS'},
+  {id:'e44', name:'MARCOS AURELIO DE ARAUJO SANTIAGO',           role:'TECNICO EM SEGURANÇA DO TRABALHO'},
+  {id:'e45', name:'MARIO DE SOUZA CARVALHO NETO',                role:'TECNICO EM SEGURANÇA DO TRABALHO'},
+  {id:'e46', name:'MAURO RIBEIRO DA SILVA',                      role:'ALMOXARIFE'},
+  {id:'e47', name:'NELIO PAPE AMBROSIO',                         role:'PEDREIRO'},
+  {id:'e48', name:'NESTOR EDUARDO PACHECO GARCIA',               role:'AJUDANTE GERAL'},
+  {id:'e49', name:'NICARLOS FERREIRA MOREIRA',                   role:'NAVEGADOR'},
+  {id:'e50', name:'PABLO ERNESTO GARCIA DORREGO',                role:'PEDREIRO'},
+  {id:'e51', name:'PAULO HENRIQUE VASCONCELOS CHAMORRO MARTINS', role:'SUPERVISOR DE MND'},
+  {id:'e52', name:'PAULO TEODORO NOGUEIRA FILHO',                role:'SOLDADOR PEAD'},
+  {id:'e53', name:'RAFAEL MIRRAN BASTOS DE OLIVEIRA',            role:'APRENDIZ'},
+  {id:'e54', name:'RAICEL ARSENIO BAUTISTA GARCIA',              role:'MOTORISTA'},
+  {id:'e55', name:'RAIMUDO BARBOSA DE CARVALHO',                 role:'SOLDADOR'},
+  {id:'e56', name:'RENATO LUIS CALA MONTELIER',                  role:'AJUDANTE GERAL'},
+  {id:'e57', name:'RHANA JULIA MACIEL CORDEIRO',                 role:'MENOR APRENDIZ'},
+  {id:'e58', name:'RICARDO BARBOSA ANTUNES',                     role:'SOLDADOR PEAD'},
+  {id:'e59', name:'RIDER RODRIGUEZ ROJAS',                       role:'AJUDANTE GERAL'},
+  {id:'e60', name:'ROBERTO PAIVA RAMOS',                         role:'TECNICO EM SEGURANÇA DO TRABALHO'},
+  {id:'e61', name:'SEUZ ANTONIO DIAZ GONZALEZ',                  role:'MOTORISTA'},
+  {id:'e62', name:'SIMAO CARLOS CON NO',                         role:'AJUDANTE GERAL'},
+  {id:'e63', name:'ULANI VILLA CORREA',                          role:'AJUDANTE GERAL'},
+  {id:'e64', name:'VALDECIR LEMOS JUNIOR',                       role:'MOTORISTA'},
+  {id:'e65', name:'VALDEMIR JOSE FARIA',                         role:'OPERADOR DE MUNCK'},
+  {id:'e66', name:'VALDOMIRO PAIXÃO DOS SANTOS',                 role:'ENCARREGADO DE OBRAS'},
+  {id:'e67', name:'VANDERLEI FRANCISCO DE LIMA',                 role:'OPERADOR DE FURO DIRECIONAL'},
+  {id:'e68', name:'VANDERLEI RIBEIRO',                           role:'AJUDANTE GERAL'},
+  {id:'e69', name:'WILLIAN COELHO PEREIRA',                      role:'INSPETOR DE QUALIDADE'},
+  {id:'e70', name:'WILLIAN DE PAULA BENEVIDES',                  role:'AJUDANTE GERAL'},
+  {id:'e71', name:'WILSON SILVA GOMES',                          role:'NAVEGADOR'},
+  {id:'e72', name:'YADIEL MARTINEZ GOMEZ',                       role:'PEDREIRO'},
+  {id:'e73', name:'YAINER CARDENAS FERNANDEZ',                   role:'PEDREIRO'},
+  {id:'e74', name:'WALTER ENGE GARDINI',                         role:'COORDENADOR DE PLANEJAMENTO'},
+  {id:'e75', name:'NEVITON VIEIRA SANTOS',                       role:'ENGENHEIRO'},
+  {id:'e76', name:'JOSE AFONSO DOS SANTOS',                      role:'COORDENADOR ADMINISTRATIVO'},
+  {id:'e77', name:'CLAUDINOR DO ROCIO PEDRORO',                  role:'INSPETOR DE DUTOS'},
+  {id:'e78', name:'MENITEM CAROLINA DE CASTRO',                  role:'ENGENHEIRA DE SEGURANÇA DO TRABALHO'},
+  {id:'e79', name:'IGOR FELIPE DE AMORIM CASTOLDI',              role:'COORDENADOR DE PLANEJAMENTO'},
+];
+
+const TEAMS_INITIAL = [
+  {id:'t1', name:'Coordenação',             color:'linear-gradient(135deg,#1a3a5c,#2d6a9f)', members:[]},
+  {id:'t2', name:'ADM / Suprimentos',       color:'linear-gradient(135deg,#343a40,#6c757d)', members:[]},
+  {id:'t3', name:'Planejamento / Projeto',  color:'linear-gradient(135deg,#533f03,#ffc107)', members:[]},
+  {id:'t4', name:'SSM / Qualidade',         color:'linear-gradient(135deg,#155724,#28a745)', members:[]},
+  {id:'t5', name:'Equipe 1 – MND',          color:'linear-gradient(135deg,#721c24,#dc3545)', members:[]},
+  {id:'t6', name:'Equipe 2 – MND',          color:'linear-gradient(135deg,#4a235a,#8e44ad)', members:[]},
+  {id:'t7', name:'Equipe Aço / Indústrias', color:'linear-gradient(135deg,#0c3547,#17a2b8)', members:[]},
+  {id:'t8', name:'Equipe Civil / Norte',    color:'linear-gradient(135deg,#7b3f00,#e67e22)', members:[]},
+];
+
+function getDefaultState() {
+  return {
+    allEmployees: ALL_EMPLOYEES_INITIAL.map(e => ({...e})),
+    teams: TEAMS_INITIAL.map(t => ({...t, members:[]})),
+    bank: ALL_EMPLOYEES_INITIAL.map(e => e.id)
+  };
+}
+
+// ════════════════════════════════════════════════
+// ESTADO
+// ════════════════════════════════════════════════
+let state = getDefaultState();
+let isUnlocked = false;
+let draggedItem = null;
+let pendingPosition = null;
+let pendingDeleteId = null;
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+function init() {
+  if (syncEnabled) {
+    // Já tem config: pula setup, carrega da nuvem
+    document.getElementById('setupScreen').classList.remove('show');
+    loadFromLocalOrDefaults();
+    populateRoleFilter();
+    render();
+    pullFromCloud(); // carrega versão mais recente
+    startPolling();
+    setSyncStatus('syncing', '🟡 Conectando...');
+  }
+  // else: setupScreen já está visível
+}
+
+function loadFromLocalOrDefaults() {
+  const saved = localStorage.getItem('orgchart_curitiba_v4');
+  if (saved) {
+    try { state = JSON.parse(saved); mergeNewEmployees(); }
+    catch { loadDefaults(); }
+  } else { loadDefaults(); }
+}
+
+function loadDefaults() {
+  state = getDefaultState();
+}
+
+function mergeNewEmployees() {
+  if (!state.allEmployees) state.allEmployees = [];
+  if (!state.bank) state.bank = [];
+  if (!state.teams) state.teams = [];
+  const ids = new Set(state.allEmployees.map(e => e.id));
+  ALL_EMPLOYEES_INITIAL.forEach(emp => {
+    if (!ids.has(emp.id)) { state.allEmployees.push({...emp}); state.bank.push(emp.id); }
+  });
+}
+
+function saveLocal() { localStorage.setItem('orgchart_curitiba_v4', JSON.stringify(state)); }
+
+function saveAndSync() { saveLocal(); schedulePush(); }
+
+// ════════════════════════════════════════════════
+// ABAS
+// ════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('page-'+tab).classList.add('active');
+  if (tab === 'emp') renderEmpTable();
+}
+
+// ════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════
+function render() { renderBank(); renderTeams(); }
+
+function getEmp(id) { return state.allEmployees.find(e => e.id === id); }
+
+function fmt(name) {
+  return name.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+}
+
+function renderBank() {
+  const list = document.getElementById('employeesList');
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const rf = document.getElementById('filterRole').value;
+  const vis = (state.bank||[]).filter(id => {
+    const e = getEmp(id); if (!e) return false;
+    if (q && !e.name.toLowerCase().includes(q) && !e.role.toLowerCase().includes(q)) return false;
+    if (rf && e.role !== rf) return false;
+    return true;
+  });
+  list.innerHTML = '';
+  if (!vis.length) { list.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:12px">Nenhum funcionário disponível</div>'; }
+  vis.forEach(id => {
+    const e = getEmp(id); if (!e) return;
+    const d = document.createElement('div');
+    d.className = 'emp-card' + (isUnlocked ? ' draggable' : '');
+    d.draggable = isUnlocked; d.dataset.empId = id;
+    d.innerHTML = `<div class="emp-name">${fmt(e.name)}</div><div class="emp-role">${e.role}</div>`;
+    if (isUnlocked) { d.ondragstart = ev => onDragStart(ev, id, null); d.ondragend = clearDragging; }
+    list.appendChild(d);
+  });
+  document.getElementById('sidebarCount').textContent = (state.bank||[]).length;
+}
+
+function renderTeams() {
+  const grid = document.getElementById('teamsGrid');
+  grid.innerHTML = '';
+  (state.teams||[]).forEach(team => {
+    const card = document.createElement('div');
+    card.className = 'team-card'; card.dataset.teamId = team.id;
+    if (isUnlocked) {
+      card.ondragover = e => { e.preventDefault(); card.classList.add('drag-over'); };
+      card.ondragleave = () => card.classList.remove('drag-over');
+      card.ondrop = e => { card.classList.remove('drag-over'); dropToTeam(e, team.id); };
+    }
+    const hdr = document.createElement('div');
+    hdr.className = 'team-header'; hdr.style.background = team.color; hdr.style.color = 'white';
+    hdr.innerHTML = `<span>${team.name}</span><span style="display:flex;align-items:center;gap:4px">
+      <span class="team-count">${team.members.length}</span>
+      ${isUnlocked ? `<button class="btn-remove-team" onclick="removeTeam('${team.id}')">✕</button>` : ''}
+    </span>`;
+    card.appendChild(hdr);
+    const body = document.createElement('div');
+    body.className = 'team-body';
+    if (!team.members.length) {
+      body.classList.add('empty');
+      body.textContent = isUnlocked ? 'Arraste funcionários aqui' : 'Equipe vazia';
+    } else {
+      team.members.forEach(m => {
+        const e = getEmp(m.empId); if (!e) return;
+        const d = document.createElement('div');
+        d.className = 'team-member' + (isUnlocked ? ' draggable' : '');
+        d.draggable = isUnlocked; d.dataset.empId = m.empId;
+        d.innerHTML = `<div class="member-info">
+          <div class="member-name">${fmt(e.name)}</div>
+          <div class="member-role-tag">${e.role}</div>
+          ${m.position
+            ? `<span class="member-position" ${isUnlocked?`onclick="editPosition('${team.id}','${m.empId}')"`:''}>⚙ ${m.position}</span>`
+            : isUnlocked ? `<button class="pos-edit" onclick="editPosition('${team.id}','${m.empId}')">+ função</button>` : ''}
+        </div>
+        ${isUnlocked ? `<button class="btn-remove-member" onclick="removeFromTeam('${team.id}','${m.empId}')">×</button>` : ''}`;
+        if (isUnlocked) { d.ondragstart = ev => onDragStart(ev, m.empId, team.id); d.ondragend = clearDragging; }
+        body.appendChild(d);
+      });
+    }
+    card.appendChild(body); grid.appendChild(card);
+  });
+}
+
+// ════════════════════════════════════════════════
+// TABELA FUNCIONÁRIOS
+// ════════════════════════════════════════════════
+function renderEmpTable() {
+  const q = document.getElementById('empSearch').value.toLowerCase();
+  const inTeam = {};
+  (state.teams||[]).forEach(t => t.members.forEach(m => inTeam[m.empId] = t.name));
+  const tbody = document.getElementById('empTableBody');
+  tbody.innerHTML = '';
+  let n = 0;
+  (state.allEmployees||[]).filter(e => !q || e.name.toLowerCase().includes(q)).forEach(e => {
+    n++;
+    const tr = document.createElement('tr');
+    const tName = inTeam[e.id];
+    const inBank = (state.bank||[]).includes(e.id);
+    tr.innerHTML = `
+      <td style="color:#999;width:30px">${n}</td>
+      <td><strong>${fmt(e.name)}</strong></td>
+      <td style="color:#555;font-size:12px">${e.role||''}</td>
+      <td>${inBank ? '<span class="badge-bank">🏦 Banco</span>' : '<span class="badge-team">✅ Alocado</span>'}</td>
+      <td style="font-size:12px;color:#555">${tName ? '📌 '+tName : '—'}</td>
+      <td><button class="btn btn-danger" style="font-size:11px;padding:3px 8px" ${isUnlocked?'':'disabled'} onclick="openDelete('${e.id}','${e.name}')">🗑 Excluir</button></td>`;
+    tbody.appendChild(tr);
+  });
+  if (!n) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">Nenhum funcionário encontrado</td></tr>';
+  document.getElementById('empTotalBadge').textContent = `— ${(state.allEmployees||[]).length} funcionários`;
+}
+
+// ════════════════════════════════════════════════
+// DRAG & DROP
+// ════════════════════════════════════════════════
+function onDragStart(e, empId, fromTeamId) {
+  if (!isUnlocked) return;
+  draggedItem = { empId, fromTeamId };
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => { const el = document.querySelector(`[data-emp-id="${empId}"]`); if (el) el.classList.add('dragging'); }, 0);
+}
+function clearDragging() { document.querySelectorAll('.dragging').forEach(el => el.classList.remove('dragging')); }
+
+function dropToTeam(e, toTeamId) {
+  e.preventDefault();
+  if (!draggedItem || !isUnlocked) return;
+  const { empId, fromTeamId } = draggedItem;
+  if (fromTeamId === toTeamId) return;
+  if (!fromTeamId) state.bank = state.bank.filter(id => id !== empId);
+  else { const s = state.teams.find(t => t.id === fromTeamId); if (s) s.members = s.members.filter(m => m.empId !== empId); }
+  const tgt = state.teams.find(t => t.id === toTeamId);
+  if (tgt) tgt.members.push({ empId, position:'' });
+  draggedItem = null; render(); saveAndSync();
+}
+
+function dropToBank(e) {
+  e.preventDefault();
+  if (!draggedItem || !isUnlocked) return;
+  const { empId, fromTeamId } = draggedItem;
+  if (!fromTeamId) return;
+  const s = state.teams.find(t => t.id === fromTeamId);
+  if (s) s.members = s.members.filter(m => m.empId !== empId);
+  if (!state.bank.includes(empId)) state.bank.push(empId);
+  draggedItem = null; render(); saveAndSync();
+}
+
+// ════════════════════════════════════════════════
+// AÇÕES
+// ════════════════════════════════════════════════
+function removeFromTeam(teamId, empId) {
+  if (!isUnlocked) return;
+  const t = state.teams.find(t => t.id === teamId);
+  if (t) t.members = t.members.filter(m => m.empId !== empId);
+  if (!state.bank.includes(empId)) state.bank.push(empId);
+  render(); saveAndSync();
+}
+
+function removeTeam(teamId) {
+  if (!isUnlocked) return;
+  const t = state.teams.find(t => t.id === teamId);
+  if (!t || !confirm(`Remover a equipe "${t.name}"?`)) return;
+  t.members.forEach(m => { if (!state.bank.includes(m.empId)) state.bank.push(m.empId); });
+  state.teams = state.teams.filter(t => t.id !== teamId);
+  render(); saveAndSync();
+}
+
+function editPosition(teamId, empId) {
+  if (!isUnlocked) return;
+  const t = state.teams.find(t => t.id === teamId);
+  const m = t?.members.find(m => m.empId === empId);
+  pendingPosition = { teamId, empId };
+  document.getElementById('positionInput').value = m?.position || '';
+  document.getElementById('modalPosition').classList.add('show');
+  document.getElementById('positionInput').focus();
+}
+
+function confirmPosition() {
+  if (!pendingPosition) return;
+  const { teamId, empId } = pendingPosition;
+  const t = state.teams.find(t => t.id === teamId);
+  const m = t?.members.find(m => m.empId === empId);
+  if (m) m.position = document.getElementById('positionInput').value.trim();
+  pendingPosition = null; closeModal('modalPosition'); render(); saveAndSync();
+}
+
+function openDelete(empId, name) {
+  if (!isUnlocked) return;
+  pendingDeleteId = empId;
+  document.getElementById('deleteMsg').textContent = `Tem certeza que deseja excluir "${fmt(name)}"? Esta ação não pode ser desfeita.`;
+  document.getElementById('modalDelete').classList.add('show');
+}
+
+function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const id = pendingDeleteId;
+  state.allEmployees = state.allEmployees.filter(e => e.id !== id);
+  state.bank = state.bank.filter(b => b !== id);
+  state.teams.forEach(t => { t.members = t.members.filter(m => m.empId !== id); });
+  pendingDeleteId = null;
+  closeModal('modalDelete'); render(); renderEmpTable(); saveAndSync();
+  showToast('Funcionário removido.', '');
+}
+
+function filterEmployees() { renderBank(); }
+
+function populateRoleFilter() {
+  const roles = [...new Set(ALL_EMPLOYEES_INITIAL.map(e => e.role))].sort();
+  const sel = document.getElementById('filterRole');
+  while (sel.options.length > 1) sel.remove(1);
+  roles.forEach(r => { const o = document.createElement('option'); o.value=r; o.textContent=r; sel.appendChild(o); });
+}
+
+// ════════════════════════════════════════════════
+// SENHA / LOCK
+// ════════════════════════════════════════════════
+function openLockModal() {
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('pwdError').style.display = 'none';
+  if (isUnlocked) {
+    document.getElementById('lockIcon').textContent = '🔒';
+    document.getElementById('lockTitle').textContent = 'Bloquear Edição';
+    document.getElementById('lockMsg').textContent = 'Confirme a senha para bloquear.';
+  } else {
+    document.getElementById('lockIcon').textContent = '🔑';
+    document.getElementById('lockTitle').textContent = 'Desbloquear Edição';
+    document.getElementById('lockMsg').textContent = 'Digite a senha para habilitar a edição.';
+  }
+  document.getElementById('modalLock').classList.add('show');
+  setTimeout(() => document.getElementById('pwdInput').focus(), 80);
+}
+
+function confirmLock() {
+  if (document.getElementById('pwdInput').value !== EDIT_PASSWORD) {
+    document.getElementById('pwdError').style.display = 'block'; return;
+  }
+  isUnlocked = !isUnlocked;
+  closeModal('modalLock');
+  updateLockUI();
+  render();
+}
+
+function updateLockUI() {
+  document.getElementById('lockBtn').textContent   = isUnlocked ? '🔒 Bloquear' : '🔑 Desbloquear';
+  document.getElementById('lockStatus').textContent = isUnlocked ? '✅ Modo edição ativo' : '🔒 Somente leitura';
+  document.getElementById('btnNewTeam').disabled   = !isUnlocked;
+  document.getElementById('btnNewEmp').disabled    = !isUnlocked;
+  document.getElementById('empLockNote').style.display = isUnlocked ? 'none' : 'inline';
+  document.getElementById('addEmpRow').style.display   = isUnlocked ? 'flex' : 'none';
+}
+
+function togglePwd() {
+  const i = document.getElementById('pwdInput');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
+// ════════════════════════════════════════════════
+// ADICIONAR EQUIPE / FUNCIONÁRIO
+// ════════════════════════════════════════════════
+function openAddTeam() {
+  document.getElementById('newTeamName').value = '';
+  document.getElementById('modalTeam').classList.add('show');
+  setTimeout(() => document.getElementById('newTeamName').focus(), 80);
+}
+
+function confirmAddTeam() {
+  const n = document.getElementById('newTeamName').value.trim();
+  if (!n) return alert('Digite o nome da equipe.');
+  state.teams.push({ id:'t'+Date.now(), name:n, color:document.getElementById('newTeamColor').value, members:[] });
+  closeModal('modalTeam'); render(); saveAndSync();
+  showToast('Equipe criada!', 'green');
+}
+
+function openAddEmployee() {
+  if (!isUnlocked) return;
+  document.getElementById('newEmpName').value = '';
+  document.getElementById('newEmpRole').value = '';
+  document.getElementById('modalEmployee').classList.add('show');
+  setTimeout(() => document.getElementById('newEmpName').focus(), 80);
+}
+
+function confirmAddEmpModal() {
+  const name = document.getElementById('newEmpName').value.trim().toUpperCase();
+  const role = document.getElementById('newEmpRole').value.trim().toUpperCase();
+  if (!name) return alert('Digite o nome.');
+  const id = 'e'+Date.now();
+  state.allEmployees.push({ id, name, role });
+  state.bank.push(id);
+  closeModal('modalEmployee');
+  populateRoleFilter(); render(); renderEmpTable(); saveAndSync();
+  showToast('Funcionário adicionado!', 'green');
+}
+
+function confirmAddEmployee() {
+  if (!isUnlocked) return;
+  const name = document.getElementById('addName').value.trim().toUpperCase();
+  const role = document.getElementById('addRole').value.trim().toUpperCase();
+  if (!name) return alert('Digite o nome.');
+  const id = 'e'+Date.now();
+  state.allEmployees.push({ id, name, role });
+  state.bank.push(id);
+  document.getElementById('addName').value = '';
+  document.getElementById('addRole').value = '';
+  populateRoleFilter(); render(); renderEmpTable(); saveAndSync();
+  showToast('Funcionário adicionado!', 'green');
+}
+
+// ════════════════════════════════════════════════
+// EXPORT / IMPORT
+// ════════════════════════════════════════════════
+function exportData() {
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'organograma_curitiba_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+function importData() { document.getElementById('importFile').click(); }
+function handleImport(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try { state = JSON.parse(e.target.result); render(); saveAndSync(); showToast('✅ Importado!', 'green'); }
+    catch { alert('Arquivo inválido.'); }
+  };
+  r.readAsText(f); ev.target.value = '';
+}
+
+// ════════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════════
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+document.querySelectorAll('.modal-bg').forEach(bg => bg.addEventListener('click', e => { if (e.target===bg) bg.classList.remove('show'); }));
+document.getElementById('pwdInput').addEventListener('keydown', e => { if(e.key==='Enter') confirmLock(); });
+document.getElementById('newTeamName').addEventListener('keydown', e => { if(e.key==='Enter') confirmAddTeam(); });
+document.getElementById('positionInput').addEventListener('keydown', e => { if(e.key==='Enter') confirmPosition(); });
+document.getElementById('newEmpRole').addEventListener('keydown', e => { if(e.key==='Enter') confirmAddEmpModal(); });
+
+init();
+</script>
+</body>
+</html>
